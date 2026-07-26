@@ -128,16 +128,44 @@ body:has(button:hover) #cursor-ring {
   right: 0;
   z-index: var(--z-sticky);
   padding: var(--space-5) 0;
-  transition: background 0.4s ease, padding 0.3s ease, border-color 0.4s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   border-bottom: 1px solid transparent;
+  background: transparent;
+  
+  /* Smooth scroll hide effect */
+  transform: translateY(0);
+  will-change: transform;
 }
 
 .nav.scrolled {
-  background: rgba(2, 2, 5, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom-color: var(--border-subtle);
+  background: rgba(2, 2, 5, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: var(--space-4) 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  
+  /* Floating effect */
+  margin-top: 8px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 2rem);
+  border-radius: 16px;
+  max-width: 1300px;
+}
+
+.nav.scrolled .container {
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
+}
+
+/* Hide on scroll down, show on scroll up */
+.nav.hide {
+  transform: translateY(-120px);
+}
+
+.nav.hide.scrolled {
+  transform: translateX(-50%) translateY(-120px);
 }
 
 .nav__inner {
@@ -188,13 +216,31 @@ body:has(button:hover) #cursor-ring {
   font-weight: var(--fw-medium);
   color: var(--text-secondary);
   border-radius: var(--radius-md);
-  transition: color var(--transition-fast), background var(--transition-fast);
+  transition: all var(--transition-fast);
   position: relative;
+  overflow: hidden;
 }
 
-.nav__link:hover, .nav__link.active {
+.nav__link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--grad-primary);
+  transition: width var(--transition-base);
+}
+
+.nav__link:hover::before,
+.nav__link.active::before {
+  width: 100%;
+}
+
+.nav__link:hover, 
+.nav__link.active {
   color: var(--text-primary);
-  background: var(--surface-2);
+  background: rgba(99, 102, 241, 0.05);
 }
 
 .nav__actions {
