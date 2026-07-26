@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Future of AI: Engineering Intelligence at Scale — IEEE SB Blog</title>
+  <meta name="description" content="Transformer architectures, emergent capabilities, and how IEEE SB members are at the forefront of the AI revolution." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/globals.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/pages/blog.css" />
+</head>
+<body>
+<div id="preloader">
+  <div class="preloader__logo"><svg viewBox="0 0 80 80" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs><rect width="80" height="80" rx="20" fill="url(#lg)"/><text x="50%" y="56%" dominant-baseline="middle" text-anchor="middle" fill="white" font-family="Inter" font-weight="900" font-size="32">Σ</text></svg></div>
+  <div class="preloader__text">Article</div>
+  <div class="preloader__bar-wrap"><div class="preloader__bar"></div></div>
+</div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="cursor-glow"></div>
+<div id="scroll-progress"></div>
+<div class="post-reading-progress" id="post-reading-progress"></div>
+<div id="toast-container"></div>
+
+<div id="cmd-palette">
+  <div class="cmd-palette__backdrop"></div>
+  <div class="cmd-palette__dialog">
+    <div class="cmd-palette__input-wrap"><span class="cmd-palette__icon">⌘</span><input type="text" class="cmd-palette__input" placeholder="Search..." autocomplete="off"/></div>
+    <div class="cmd-palette__results"></div>
+    <div class="cmd-palette__footer"><span class="cmd-palette__hint">↑↓ navigate</span><span class="cmd-palette__hint">↵ open</span><span class="cmd-palette__hint">Esc close</span></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo"><div class="nav__logo-mark">Σ</div><span>IEEE <span style="font-weight:300;opacity:0.6">SB</span></span></a>
+      <div class="nav__links">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="team.html" class="nav__link">Team</a>
+        <a href="events.html" class="nav__link">Events</a>
+        <a href="gallery.html" class="nav__link">Gallery</a>
+        <a href="blog.html" class="nav__link active">Blog</a>
+      </div>
+      <div class="nav__actions">
+        <button class="nav__cmd-btn" data-cmd-open><span>Search</span><kbd>⌘K</kbd></button>
+        <button class="nav__theme-btn" data-theme-toggle>🌙</button>
+        <button class="nav__hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="nav__mobile-menu">
+      <a href="index.html" class="nav__link">Home</a><a href="team.html" class="nav__link">Team</a>
+      <a href="events.html" class="nav__link">Events</a><a href="gallery.html" class="nav__link">Gallery</a>
+      <a href="blog.html" class="nav__link">Blog</a>
+    </div>
+  </div>
+</nav>
+
+<!-- POST HEADER -->
+<header class="post-header container">
+  <div class="reveal">
+    <a href="blog.html" style="display:inline-flex;align-items:center;gap:.5rem;color:var(--text-muted);font-size:.875rem;margin-bottom:2rem;transition:color var(--transition-fast)" onmouseover="this.style.color='var(--accent-indigo)'" onmouseout="this.style.color='var(--text-muted)'">
+      ← Back to Blog
+    </a>
+    <div style="margin-bottom:1.5rem">
+      <span class="badge badge--accent">🤖 AI & ML</span>
+    </div>
+  </div>
+  <h1 class="post-header__title reveal reveal-delay-1">
+    The Future of AI: <span class="text-gradient">Engineering Intelligence</span> at Scale
+  </h1>
+  <p class="post-header__excerpt reveal reveal-delay-2">
+    Transformer architectures have reshaped every industry. From drug discovery to climate modeling — we explore how IEEE members lead this revolution and what comes next.
+  </p>
+  <div class="post-header__meta reveal reveal-delay-3">
+    <div class="post-author">
+      <div class="avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);width:48px;height:48px;font-size:16px">AR</div>
+      <div>
+        <div class="post-author__name">Aryan Rao</div>
+        <div class="post-author__role">Computer Society · Senior Member</div>
+      </div>
+    </div>
+    <div class="post-meta-divider"></div>
+    <span class="post-meta-info">Jul 20, 2025</span>
+    <div class="post-meta-divider"></div>
+    <span class="post-meta-info">6 min read</span>
+    <div class="post-meta-divider"></div>
+    <span class="post-meta-info">2.4K views</span>
+  </div>
+</header>
+
+<!-- HERO IMAGE -->
+<div class="post-hero-image container reveal">
+  <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1200&q=80&auto=format" alt="The Future of AI" loading="eager" />
+</div>
+
+<!-- POST BODY -->
+<div class="post-body container" style="padding-bottom:5rem">
+  <article class="post-content" id="post-content">
+    <h2 id="intro">Introduction: The Third Wave</h2>
+    <p>
+      We are living through the third wave of artificial intelligence — one defined not by narrow task-specific systems, but by general-purpose models capable of reasoning, code generation, scientific discovery, and multimodal understanding. At the center of this revolution sits the transformer architecture, introduced by Vaswani et al. in 2017 and since scaled to planetary proportions.
+    </p>
+    <p>
+      For IEEE Student Branch members, this is not merely a technological curiosity — it is an engineering discipline that demands attention. Understanding how these systems are built, where they fail, and how to deploy them responsibly is now a core competency for the modern engineer.
+    </p>
+
+    <h2 id="transformers">Why Transformers Changed Everything</h2>
+    <p>
+      The attention mechanism, the beating heart of transformers, solved a fundamental problem: how to efficiently model long-range dependencies in sequential data. Previous architectures like LSTMs struggled with sequences longer than a few hundred tokens. Transformers, with their O(n²) attention, scaled differently — and when you throw enough compute at them, something remarkable emerges.
+    </p>
+    <p>
+      In our IEEE SB research lab, we've been exploring efficient attention variants — Flash Attention, Sliding Window Attention — that reduce this complexity to O(n log n) or even O(n). The implications for deploying LLMs on embedded hardware are significant.
+    </p>
+    <blockquote>
+      "Scale is not just a strategy — it is a fundamental property of intelligence. What we've discovered is that capability emerges non-linearly with scale." — From our research presentation at IEEE COMPSAC 2024
+    </blockquote>
+
+    <h2 id="applications">Real-World IEEE Applications</h2>
+    <p>
+      Our Computer Society chapter has been running applied AI projects across three domains:
+    </p>
+    <p>
+      <strong>Medical Imaging:</strong> Fine-tuning vision transformers for early detection of cardiac anomalies in ECG data. Our model achieves 94.3% sensitivity — surpassing the current clinical baseline of 87%.
+    </p>
+    <p>
+      <strong>Smart Grid Optimization:</strong> Using time-series transformers to predict demand fluctuations in renewable energy grids, enabling the Power & Energy chapter to develop better control algorithms.
+    </p>
+    <p>
+      <strong>Signal Processing:</strong> Applying attention mechanisms to RF signal classification — a collaboration with our Signal Processing chapter that yielded a paper accepted at IEEE ICASSP 2025.
+    </p>
+
+    <h2 id="future">What Comes Next</h2>
+    <p>
+      The next frontier is not bigger models — it's more efficient ones. The Chinchilla scaling laws suggest we've been significantly under-training our models relative to their parameter counts. Techniques like mixture-of-experts, sparse activation, and quantization-aware training are moving LLMs from data centers to edge devices.
+    </p>
+    <p>
+      For IEEE engineers, the opportunity is immense. Every industry — from power grids to telecommunications — now has AI as a core engineering discipline. The question is not whether AI will impact your field, but whether you'll be the one engineering the future.
+    </p>
+
+    <h2 id="getting-started">Getting Started as a Student</h2>
+    <p>
+      If you're an IEEE SB member looking to dive in, here's a pragmatic roadmap:
+    </p>
+    <p>
+      Start with the fundamentals: linear algebra, probability, and calculus. Then work through Andrew Ng's ML Specialization. From there, implement a transformer from scratch in PyTorch — the <code>nn.MultiheadAttention</code> module is your friend, but understanding the math behind it is essential.
+    </p>
+    <p>
+      Join our AI working group (every Thursday, 6 PM in Lab 301) and contribute to one of our open-source research projects on GitHub. We welcome contributors at all levels.
+    </p>
+  </article>
+
+  <!-- SIDEBAR / TOC -->
+  <aside class="post-sidebar hide-tablet">
+    <nav class="post-toc" aria-label="Table of contents">
+      <div class="post-toc__title">Contents</div>
+      <a href="#intro" class="post-toc__link active" onclick="setTocActive(this)">Introduction</a>
+      <a href="#transformers" class="post-toc__link" onclick="setTocActive(this)">Why Transformers</a>
+      <a href="#applications" class="post-toc__link" onclick="setTocActive(this)">Applications</a>
+      <a href="#future" class="post-toc__link" onclick="setTocActive(this)">What's Next</a>
+      <a href="#getting-started" class="post-toc__link" onclick="setTocActive(this)">Getting Started</a>
+    </nav>
+
+    <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:var(--radius-2xl);padding:1.25rem;margin-top:1.25rem">
+      <div class="post-toc__title">Share</div>
+      <div style="display:flex;gap:.5rem;margin-top:.75rem;flex-wrap:wrap">
+        <button class="btn btn--ghost btn--sm" onclick="showToast('Link copied! 📋','success')">🔗 Copy Link</button>
+        <button class="btn btn--ghost btn--sm" onclick="showToast('Shared to Twitter! 𝕏','info')">𝕏 Tweet</button>
+        <button class="btn btn--ghost btn--sm" onclick="showToast('Shared to LinkedIn!','success')">in Share</button>
+      </div>
+    </div>
+
+    <div style="background:var(--surface-1);border:1px solid rgba(99,102,241,0.2);border-radius:var(--radius-2xl);padding:1.25rem;margin-top:1.25rem;text-align:center">
+      <div style="font-size:.75rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem">Author</div>
+      <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);margin:0 auto .75rem">AR</div>
+      <div style="font-weight:600;font-size:.9rem">Aryan Rao</div>
+      <div style="font-size:.75rem;color:var(--text-muted);margin-bottom:1rem">Computer Society Lead</div>
+      <div style="display:flex;gap:.5rem;justify-content:center">
+        <a href="#" class="social-link">in</a>
+        <a href="#" class="social-link">𝕏</a>
+        <a href="#" class="social-link">⌥</a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- RELATED ARTICLES -->
+<section class="related-articles" style="padding-inline:clamp(1rem,5vw,3rem)">
+  <div class="section-label">Read Next</div>
+  <h2 class="text-subheading" style="margin-bottom:2rem">Related <span class="text-gradient">Articles</span></h2>
+  <div class="related-articles__grid">
+    <a href="blog-post.html" class="blog-card reveal">
+      <div class="blog-card__image-wrap"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80&auto=format" alt="Robotics" class="blog-card__image" loading="lazy"/></div>
+      <div class="blog-card__body">
+        <div class="blog-card__meta"><span class="badge badge--default">⚙️ Robotics</span></div>
+        <h3 class="blog-card__title">Building Autonomous Systems: Lessons from the Field</h3>
+        <div class="blog-card__footer"><span class="blog-card__read-time">8 min read</span></div>
+      </div>
+    </a>
+    <a href="blog-post.html" class="blog-card reveal reveal-delay-1">
+      <div class="blog-card__image-wrap"><img src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=600&q=80&auto=format" alt="Research" class="blog-card__image" loading="lazy"/></div>
+      <div class="blog-card__body">
+        <div class="blog-card__meta"><span class="badge badge--cyan">🔬 Research</span></div>
+        <h3 class="blog-card__title">Publishing in IEEE: A Student's Complete Guide</h3>
+        <div class="blog-card__footer"><span class="blog-card__read-time">10 min read</span></div>
+      </div>
+    </a>
+    <a href="blog-post.html" class="blog-card reveal reveal-delay-2">
+      <div class="blog-card__image-wrap"><img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&q=80&auto=format" alt="Energy" class="blog-card__image" loading="lazy"/></div>
+      <div class="blog-card__body">
+        <div class="blog-card__meta"><span class="badge badge--success">⚡ Energy</span></div>
+        <h3 class="blog-card__title">Smart Grids & the Renewable Revolution</h3>
+        <div class="blog-card__footer"><span class="blog-card__read-time">5 min read</span></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer style="padding:2rem 0;margin-top:3rem;border-top:1px solid var(--border-subtle)">
+  <div class="container footer__bottom">
+    <a href="index.html" class="nav__logo"><div class="nav__logo-mark">Σ</div><span>IEEE SB</span></a>
+    <div style="display:flex;gap:1.5rem"><a href="blog.html" class="footer__link">← Back to Blog</a><a href="index.html" class="footer__link">Home</a></div>
+    <p class="footer__copy">© 2025 IEEE Student Branch</p>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top">↑</button>
+<script src="js/core.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/magnetic.js"></script>
+<script>
+  // Reading progress for blog post
+  const postProgress = document.getElementById('post-reading-progress');
+  const postContent = document.getElementById('post-content');
+  if (postProgress && postContent) {
+    window.addEventListener('scroll', () => {
+      const rect = postContent.getBoundingClientRect();
+      const total = postContent.offsetHeight;
+      const read = Math.max(0, -rect.top);
+      const pct = Math.min(100, (read / total) * 100);
+      postProgress.style.width = pct + '%';
+    }, { passive: true });
+  }
+
+  // Active TOC link on scroll
+  const headings = document.querySelectorAll('.post-content h2[id]');
+  const tocLinks = document.querySelectorAll('.post-toc__link');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    headings.forEach(h => {
+      if (window.scrollY >= h.offsetTop - 150) current = h.id;
+    });
+    tocLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  }, { passive: true });
+
+  function setTocActive(el) {
+    tocLinks.forEach(l => l.classList.remove('active'));
+    el.classList.add('active');
+  }
+</script>
+</body>
+</html>

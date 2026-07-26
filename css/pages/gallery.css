@@ -1,0 +1,116 @@
+/* ============================================================
+   GALLERY.CSS — Gallery Page Styles
+   ============================================================ */
+
+.gallery-hero {
+  padding-top: 150px;
+  padding-bottom: var(--space-12);
+  text-align: center;
+}
+
+.gallery-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-bottom: var(--space-10);
+  flex-wrap: wrap;
+}
+
+/* Masonry Grid */
+.masonry-grid {
+  columns: 4;
+  column-gap: var(--space-4);
+}
+
+@media (max-width: 1200px) { .masonry-grid { columns: 3; } }
+@media (max-width: 768px) { .masonry-grid { columns: 2; } }
+@media (max-width: 480px) { .masonry-grid { columns: 1; } }
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  position: relative;
+  cursor: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.masonry-item.revealed { opacity: 1; transform: translateY(0); }
+
+.masonry-item:hover .masonry-item__overlay { opacity: 1; }
+.masonry-item:hover .masonry-item__img { transform: scale(1.05); }
+
+.masonry-item__img {
+  width: 100%;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.masonry-item__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--space-5);
+}
+
+.masonry-item__title {
+  font-size: var(--text-base);
+  font-weight: var(--fw-semibold);
+  color: white;
+  margin-bottom: var(--space-1);
+}
+
+.masonry-item__category {
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.masonry-item__expand {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: 34px;
+  height: 34px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity var(--transition-base), transform var(--transition-bounce);
+}
+
+.masonry-item:hover .masonry-item__expand { opacity: 1; transform: scale(1); }
+
+/* Lazy load skeleton */
+.masonry-item.loading { background: var(--surface-1); min-height: 200px; }
+.masonry-item.loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 25%, var(--surface-3) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: skeleton 1.5s infinite;
+}
+
+/* Load more */
+.gallery-load-more {
+  text-align: center;
+  margin-top: var(--space-12);
+}

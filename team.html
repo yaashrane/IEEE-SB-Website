@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team — IEEE Student Branch</title>
+  <meta name="description" content="Meet the brilliant minds driving IEEE Student Branch — our leaders, engineers, and innovators." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/globals.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/pages/team.css" />
+</head>
+<body>
+<div id="preloader">
+  <div class="preloader__logo"><svg viewBox="0 0 80 80" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs><rect width="80" height="80" rx="20" fill="url(#lg)"/><text x="50%" y="56%" dominant-baseline="middle" text-anchor="middle" fill="white" font-family="Inter" font-weight="900" font-size="32">Σ</text></svg></div>
+  <div class="preloader__text">Team</div>
+  <div class="preloader__bar-wrap"><div class="preloader__bar"></div></div>
+</div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="cursor-glow"></div>
+<div id="scroll-progress"></div>
+<div id="toast-container"></div>
+
+<!-- CMD PALETTE -->
+<div id="cmd-palette">
+  <div class="cmd-palette__backdrop"></div>
+  <div class="cmd-palette__dialog">
+    <div class="cmd-palette__input-wrap"><span class="cmd-palette__icon">⌘</span><input type="text" class="cmd-palette__input" placeholder="Search..." autocomplete="off"/></div>
+    <div class="cmd-palette__results"></div>
+    <div class="cmd-palette__footer"><span class="cmd-palette__hint">↑↓ navigate</span><span class="cmd-palette__hint">↵ open</span><span class="cmd-palette__hint">Esc close</span></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo"><div class="nav__logo-mark">Σ</div><span>IEEE <span style="font-weight:300;opacity:0.6">SB</span></span></a>
+      <div class="nav__links">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="team.html" class="nav__link active">Team</a>
+        <a href="events.html" class="nav__link">Events</a>
+        <a href="gallery.html" class="nav__link">Gallery</a>
+        <a href="blog.html" class="nav__link">Blog</a>
+      </div>
+      <div class="nav__actions">
+        <button class="nav__cmd-btn" data-cmd-open><span>Search</span><kbd>⌘K</kbd></button>
+        <button class="nav__theme-btn" data-theme-toggle>🌙</button>
+        <button class="nav__hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="nav__mobile-menu">
+      <a href="index.html" class="nav__link">Home</a><a href="team.html" class="nav__link">Team</a>
+      <a href="events.html" class="nav__link">Events</a><a href="gallery.html" class="nav__link">Gallery</a>
+      <a href="blog.html" class="nav__link">Blog</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="team-hero" aria-label="Team hero">
+  <div class="team-hero__glow"></div>
+  <div class="container" style="position:relative;z-index:1">
+    <div class="section-label" style="justify-content:center" data-mouse-parallax="5">The Minds Behind the Mission</div>
+    <h1 class="text-display team-hero__title reveal">
+      Meet the <span class="text-gradient-aurora">Team</span>
+    </h1>
+    <p class="team-hero__desc reveal reveal-delay-1">
+      Driven engineers, creative thinkers, and passionate leaders — the people who make IEEE SB extraordinary every day.
+    </p>
+    <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap" class="reveal reveal-delay-2">
+      <span class="badge badge--accent">1200+ Members</span>
+      <span class="badge badge--cyan">6 Chapters</span>
+      <span class="badge badge--default">40+ Events/Year</span>
+      <span class="badge badge--default">14 Years Strong</span>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERSHIP -->
+<section class="leadership-section section" aria-label="Leadership team">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:1rem">
+      <div class="section-label" style="justify-content:center">Executive Board</div>
+      <h2 class="text-heading">The <span class="text-gradient">Leaders</span></h2>
+    </div>
+    <div class="leadership-grid" data-stagger>
+
+      <div class="leader-card">
+        <div class="leader-card__avatar-wrap">
+          <div class="leader-card__avatar-ring"></div>
+          <div class="avatar avatar--xl" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">AR</div>
+        </div>
+        <h3 class="leader-card__name">Arjun Raj</h3>
+        <div class="leader-card__role">// Chairperson</div>
+        <p class="leader-card__bio">Final year ECE student, AIR 1 at TechFest 2024. Research in neuromorphic computing and VLSI design.</p>
+        <div class="leader-card__skills">
+          <span class="skill-pill">VLSI</span><span class="skill-pill">Python</span><span class="skill-pill">FPGA</span><span class="skill-pill">Leadership</span>
+        </div>
+        <div class="leader-card__socials">
+          <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+          <a href="#" class="social-link" aria-label="GitHub">⌥</a>
+          <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+        </div>
+      </div>
+
+      <div class="leader-card">
+        <div class="leader-card__avatar-wrap">
+          <div class="leader-card__avatar-ring"></div>
+          <div class="avatar avatar--xl" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">SM</div>
+        </div>
+        <h3 class="leader-card__name">Sneha Menon</h3>
+        <div class="leader-card__role">// Vice Chairperson</div>
+        <p class="leader-card__bio">WIE Chapter lead and ML researcher with 4 publications in IEEE Signal Processing Letters.</p>
+        <div class="leader-card__skills">
+          <span class="skill-pill">Machine Learning</span><span class="skill-pill">DSP</span><span class="skill-pill">Research</span>
+        </div>
+        <div class="leader-card__socials">
+          <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+          <a href="#" class="social-link" aria-label="GitHub">⌥</a>
+        </div>
+      </div>
+
+      <div class="leader-card">
+        <div class="leader-card__avatar-wrap">
+          <div class="leader-card__avatar-ring"></div>
+          <div class="avatar avatar--xl" style="background:linear-gradient(135deg,#10b981,#06b6d4)">PK</div>
+        </div>
+        <h3 class="leader-card__name">Priya Kumar</h3>
+        <div class="leader-card__role">// Secretary</div>
+        <p class="leader-card__bio">Full-stack developer and event architect behind TechFest, managing 200+ volunteers across 40 events.</p>
+        <div class="leader-card__skills">
+          <span class="skill-pill">Node.js</span><span class="skill-pill">React</span><span class="skill-pill">Event Mgmt</span>
+        </div>
+        <div class="leader-card__socials">
+          <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+          <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+        </div>
+      </div>
+
+      <div class="leader-card">
+        <div class="leader-card__avatar-wrap">
+          <div class="leader-card__avatar-ring"></div>
+          <div class="avatar avatar--xl" style="background:linear-gradient(135deg,#8b5cf6,#ec4899)">RV</div>
+        </div>
+        <h3 class="leader-card__name">Rahul Verma</h3>
+        <div class="leader-card__role">// Treasurer</div>
+        <p class="leader-card__bio">Power electronics specialist managing ₹15L+ annual budget and industry partnerships with 12 sponsors.</p>
+        <div class="leader-card__skills">
+          <span class="skill-pill">Power Systems</span><span class="skill-pill">Finance</span><span class="skill-pill">MATLAB</span>
+        </div>
+        <div class="leader-card__socials">
+          <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+          <a href="#" class="social-link" aria-label="GitHub">⌥</a>
+        </div>
+      </div>
+
+      <div class="leader-card">
+        <div class="leader-card__avatar-wrap">
+          <div class="leader-card__avatar-ring"></div>
+          <div class="avatar avatar--xl" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">NA</div>
+        </div>
+        <h3 class="leader-card__name">Nisha Agarwal</h3>
+        <div class="leader-card__role">// Technical Lead</div>
+        <p class="leader-card__bio">Robotics and embedded systems expert. Led team to 1st place at IEEE Robocon Asia-Pacific 2024.</p>
+        <div class="leader-card__skills">
+          <span class="skill-pill">Robotics</span><span class="skill-pill">C++</span><span class="skill-pill">ROS</span><span class="skill-pill">Embedded</span>
+        </div>
+        <div class="leader-card__socials">
+          <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+          <a href="#" class="social-link" aria-label="GitHub">⌥</a>
+        </div>
+      </div>
+
+      <div class="leader-card">
+        <div class="leader-card__avatar-wrap">
+          <div class="leader-card__avatar-ring"></div>
+          <div class="avatar avatar--xl" style="background:linear-gradient(135deg,#ec4899,#6366f1)">DS</div>
+        </div>
+        <h3 class="leader-card__name">Dev Sharma</h3>
+        <div class="leader-card__role">// Creative Director</div>
+        <p class="leader-card__bio">UI/UX designer and brand strategist behind all IEEE SB visual identity and digital experiences.</p>
+        <div class="leader-card__skills">
+          <span class="skill-pill">Design</span><span class="skill-pill">Figma</span><span class="skill-pill">Branding</span><span class="skill-pill">Motion</span>
+        </div>
+        <div class="leader-card__socials">
+          <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+          <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MEMBERS -->
+<section class="members-section section" aria-label="All members">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:2.5rem">
+      <div class="section-label" style="justify-content:center">The Full Roster</div>
+      <h2 class="text-heading">Every <span class="text-gradient">Member</span> Matters</h2>
+    </div>
+
+    <div class="members-filter reveal" style="justify-content:center;margin-bottom:3rem">
+      <div class="filter-group">
+        <button class="filter-pill active" data-filter="all" onclick="filterMembers(this,'all')">All Members</button>
+        <button class="filter-pill" data-filter="cs" onclick="filterMembers(this,'cs')">💻 Computer Society</button>
+        <button class="filter-pill" data-filter="sp" onclick="filterMembers(this,'sp')">📡 Signal Processing</button>
+        <button class="filter-pill" data-filter="pe" onclick="filterMembers(this,'pe')">⚡ Power & Energy</button>
+        <button class="filter-pill" data-filter="rob" onclick="filterMembers(this,'rob')">🤖 Robotics</button>
+        <button class="filter-pill" data-filter="wie" onclick="filterMembers(this,'wie')">♀️ WIE</button>
+        <button class="filter-pill" data-filter="comm" onclick="filterMembers(this,'comm')">📶 Communications</button>
+      </div>
+    </div>
+
+    <div class="members-grid" id="members-grid" data-stagger>
+
+      <!-- CS Members -->
+      <div class="member-card" data-chapter="cs" data-tilt>
+        <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);margin:0 auto var(--space-4)">AK</div>
+        <div class="member-card__name">Akash Kumar</div>
+        <div class="member-card__role">// Software Engineer · CS</div>
+        <div class="member-card__socials">
+          <a href="#" class="social-link">in</a><a href="#" class="social-link">⌥</a><a href="#" class="social-link">𝕏</a>
+        </div>
+      </div>
+      <div class="member-card" data-chapter="cs" data-tilt>
+        <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);margin:0 auto var(--space-4)">MJ</div>
+        <div class="member-card__name">Maya Joshi</div>
+        <div class="member-card__role">// Full Stack Dev · CS</div>
+        <div class="member-card__socials">
+          <a href="#" class="social-link">in</a><a href="#" class="social-link">⌥</a>
+        </div>
+      </div>
+      <div class="member-card" data-chapter="cs" data-tilt>
+        <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#3b82f6,#6366f1);margin:0 auto var(--space-4)">VR</div>
+        <div class="member-card__name">Vikram Roy</div>
+        <div class="member-card__role">// Data Scientist · CS</div>
+        <div class="member-card__socials">
+          <a href="#" class="social-link">in</a><a href="#" class="social-link">⌥</a>
+        </div>
+      </div>
+
+      <!-- SP Members -->
+      <div class="member-card" data-chapter="sp" data-tilt>
+        <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);margin:0 auto var(--space-4)">KS</div>
+        <div class="member-card__name">Kavya Shetty</div>
+        <div class="member-card__role">// DSP Engineer · SP</div>
+        <div class="member-card__socials">
+          <a href="#" class="social-link">in</a><a href="#" class="social-link">⌥</a>
+        </div>
+      </div>
+      <div class="member-card" data-chapter="sp" data-tilt>
+        <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);margin:0 auto var(--space-4)">RM</div>
+        <div class="member-card__name">Ravi Menon</div>
+        <div class="member-card__role">// RF Engineer · SP</div>
+        <div class="member-card__socials">
+          <a href="#" class="social-link">in</a><a href="#" class="social-link">𝕏</a>
+        </div>
+      </div>
+
+      <!-- PE Members -->
+      <div class="member-card" data-chapter="pe" data-tilt>
+        <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#10b981,#06b6d4);margin:0 auto var(--space-4)">SP</div>
+        <div class="member-card__name">Siddharth P</div>
+        <div class="member-card__role">// Power Systems · PE</div>
+        <div class="member-card__socials">
+          <a href="#" class="social-link">in</a><a href="#" class="social-link">⌥</a>
+        </div>
+      </div>
+      <div class="member-card" data-chapter="pe" data-tilt>
+        <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#34d399,#10b981);margin:0 auto var(--space-4)">AG</div>
+        <div class="member-card__name">Ananya Gupta</div>
+        <div class="member-card__role">// EV Systems · PE</div>
+        <div class="member-card__socials">
+          <a href="#" class="social-link">in</a>
+        </div>
+      </div>
+
+      <!-- Robotics Members -->
+      <div class="member-card" data-chapter="rob" data-tilt>
+        <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#8b5cf6,#6366f1);margin:0 auto var(--space-4)">TN</div>
+        <div class="member-card__name">Tejas Nair</div>
+        <div class="member-card__role">// Robotics Eng · ROB</div>
+        <div class="member-card__socials">
+          <a href="#" class="social-link">in</a><a href="#" class="social-link">⌥</a>
+        </div>
+      </div>
+      <div class="member-card" data-chapter="rob" data-tilt>
+        <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#a78bfa,#8b5cf6);margin:0 auto var(--space-4)">LK</div>
+        <div class="member-card__name">Lakshmi Krishnan</div>
+        <div class="member-card__role">// Embedded Dev · ROB</div>
+        <div class="member-card__socials">
+          <a href="#" class="social-link">in</a>
+        </div>
+      </div>
+
+      <!-- WIE -->
+      <div class="member-card" data-chapter="wie" data-tilt>
+        <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#ec4899,#8b5cf6);margin:0 auto var(--space-4)">PP</div>
+        <div class="member-card__name">Pooja Pillai</div>
+        <div class="member-card__role">// WIE Lead</div>
+        <div class="member-card__socials">
+          <a href="#" class="social-link">in</a><a href="#" class="social-link">𝕏</a>
+        </div>
+      </div>
+      <div class="member-card" data-chapter="wie" data-tilt>
+        <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#f472b6,#ec4899);margin:0 auto var(--space-4)">RD</div>
+        <div class="member-card__name">Riya Desai</div>
+        <div class="member-card__role">// WIE Core · AI</div>
+        <div class="member-card__socials">
+          <a href="#" class="social-link">in</a>
+        </div>
+      </div>
+
+      <!-- Comms -->
+      <div class="member-card" data-chapter="comm" data-tilt>
+        <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#f59e0b,#ef4444);margin:0 auto var(--space-4)">AS</div>
+        <div class="member-card__name">Aryan Singh</div>
+        <div class="member-card__role">// 5G Engineer · COMM</div>
+        <div class="member-card__socials">
+          <a href="#" class="social-link">in</a><a href="#" class="social-link">⌥</a>
+        </div>
+      </div>
+      <div class="member-card" data-chapter="comm" data-tilt>
+        <div class="avatar avatar--lg" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);margin:0 auto var(--space-4)">NB</div>
+        <div class="member-card__name">Naman Bose</div>
+        <div class="member-card__role">// IoT Specialist · COMM</div>
+        <div class="member-card__socials">
+          <a href="#" class="social-link">in</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer aria-label="Footer" style="padding-top:3rem;padding-bottom:2rem;border-top:1px solid var(--border-subtle)">
+  <div class="container">
+    <div class="footer__bottom">
+      <a href="index.html" class="nav__logo"><div class="nav__logo-mark">Σ</div><span>IEEE SB</span></a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="index.html" class="footer__link">Home</a>
+        <a href="events.html" class="footer__link">Events</a>
+        <a href="gallery.html" class="footer__link">Gallery</a>
+        <a href="blog.html" class="footer__link">Blog</a>
+      </div>
+      <p class="footer__copy">© 2025 IEEE Student Branch</p>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top">↑</button>
+<script src="js/core.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/magnetic.js"></script>
+<script>
+  function filterMembers(btn, chapter) {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.member-card').forEach(card => {
+      const match = chapter === 'all' || card.dataset.chapter === chapter;
+      card.classList.toggle('hidden', !match);
+      if (match) card.classList.add('reveal', 'revealed');
+    });
+  }
+</script>
+</body>
+</html>

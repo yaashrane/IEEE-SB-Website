@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — IEEE Student Branch</title>
+  <meta name="description" content="IEEE SB Admin Panel — Manage members, events, blog posts, gallery, and analytics." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/globals.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/pages/admin.css" />
+</head>
+<body>
+<div id="preloader">
+  <div class="preloader__logo"><svg viewBox="0 0 80 80" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs><rect width="80" height="80" rx="20" fill="url(#lg)"/><text x="50%" y="56%" dominant-baseline="middle" text-anchor="middle" fill="white" font-family="Inter" font-weight="900" font-size="32">Σ</text></svg></div>
+  <div class="preloader__text">Admin Panel</div>
+  <div class="preloader__bar-wrap"><div class="preloader__bar"></div></div>
+</div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="cursor-glow"></div>
+<div id="toast-container"></div>
+
+<div class="admin-layout">
+
+  <!-- ─── SIDEBAR ──────────────────────────────────────── -->
+  <aside class="admin-sidebar" id="admin-sidebar" role="navigation" aria-label="Admin navigation">
+    <div class="admin-sidebar__logo">
+      <div class="nav__logo-mark">Σ</div>
+      <span>IEEE <span style="font-weight:300;opacity:.6">Admin</span></span>
+    </div>
+
+    <div class="admin-sidebar__user">
+      <div class="avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">AR</div>
+      <div class="admin-sidebar__user-info">
+        <div class="admin-sidebar__user-name">Arjun Raj</div>
+        <div class="admin-sidebar__user-role">Chairperson · Admin</div>
+      </div>
+    </div>
+
+    <nav class="admin-sidebar__nav">
+      <div class="admin-nav-section">
+        <div class="admin-nav-section-label">Overview</div>
+        <button class="admin-nav-link active" onclick="showSection('dashboard',this)" id="nav-dashboard">
+          <span class="admin-nav-link__icon">📊</span>Dashboard
+        </button>
+        <button class="admin-nav-link" onclick="showSection('analytics',this)">
+          <span class="admin-nav-link__icon">📈</span>Analytics
+        </button>
+      </div>
+
+      <div class="admin-nav-section">
+        <div class="admin-nav-section-label">Content</div>
+        <button class="admin-nav-link" onclick="showSection('members',this)">
+          <span class="admin-nav-link__icon">👥</span>Members
+          <span class="admin-nav-link__badge">1.2k</span>
+        </button>
+        <button class="admin-nav-link" onclick="showSection('events',this)">
+          <span class="admin-nav-link__icon">📅</span>Events
+          <span class="admin-nav-link__badge">6</span>
+        </button>
+        <button class="admin-nav-link" onclick="showSection('blog',this)">
+          <span class="admin-nav-link__icon">✍️</span>Blog Posts
+          <span class="admin-nav-link__badge">24</span>
+        </button>
+        <button class="admin-nav-link" onclick="showSection('gallery',this)">
+          <span class="admin-nav-link__icon">🖼️</span>Gallery
+        </button>
+        <button class="admin-nav-link" onclick="showSection('announcements',this)">
+          <span class="admin-nav-link__icon">📢</span>Announcements
+          <span class="admin-nav-link__badge">3</span>
+        </button>
+      </div>
+
+      <div class="admin-nav-section">
+        <div class="admin-nav-section-label">System</div>
+        <button class="admin-nav-link" onclick="showSection('roles',this)">
+          <span class="admin-nav-link__icon">🔐</span>Roles & Permissions
+        </button>
+        <button class="admin-nav-link" onclick="showSection('media',this)">
+          <span class="admin-nav-link__icon">📁</span>Media Library
+        </button>
+        <button class="admin-nav-link" onclick="showSection('settings',this)">
+          <span class="admin-nav-link__icon">⚙️</span>Settings
+        </button>
+      </div>
+    </nav>
+
+    <div class="admin-sidebar__bottom">
+      <a href="index.html" class="admin-nav-link" style="color:var(--text-muted)">
+        <span class="admin-nav-link__icon">🌐</span>View Website ↗
+      </a>
+      <button class="admin-nav-link" style="color:var(--accent-pink)" onclick="showToast('Logged out successfully','info')">
+        <span class="admin-nav-link__icon">⬡</span>Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- ─── MOBILE SIDEBAR OVERLAY ───────────────────────── -->
+  <div class="admin-overlay" id="admin-overlay" onclick="toggleSidebar()"></div>
+
+  <!-- ─── MAIN ──────────────────────────────────────────── -->
+  <main class="admin-main">
+
+    <!-- TOPBAR -->
+    <div class="admin-topbar">
+      <button onclick="toggleSidebar()" style="display:none;width:36px;height:36px;background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:var(--radius-md);align-items:center;justify-content:center;font-size:16px;color:var(--text-muted)" id="sidebar-toggle" aria-label="Toggle sidebar">☰</button>
+      <div class="admin-topbar__title" id="section-title">Dashboard</div>
+      <div class="admin-topbar__actions">
+        <div class="search-wrap" style="width:220px">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="input" placeholder="Quick search..." style="padding-left:2.5rem;height:36px;font-size:.8125rem"/>
+        </div>
+        <button class="admin-topbar__notif" aria-label="Notifications">
+          🔔
+          <span class="notif-badge"></span>
+        </button>
+        <button class="nav__theme-btn" data-theme-toggle aria-label="Toggle theme">🌙</button>
+        <div class="avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);cursor:none">AR</div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- ══════════════════ DASHBOARD ═══════════════════ -->
+      <div class="admin-section active" id="section-dashboard">
+
+        <div class="admin-stats-row">
+          <div class="admin-stat">
+            <div class="admin-stat__icon" style="background:rgba(99,102,241,0.15);color:var(--accent-indigo)">👥</div>
+            <div class="admin-stat__value text-gradient" data-count="1247" data-duration="1800">0</div>
+            <div class="admin-stat__label">Total Members</div>
+            <span class="admin-stat__change admin-stat__change--up">↑ 12%</span>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat__icon" style="background:rgba(6,182,212,0.15);color:var(--accent-cyan)">📅</div>
+            <div class="admin-stat__value" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-count="6" data-duration="800">0</div>
+            <div class="admin-stat__label">Upcoming Events</div>
+            <span class="admin-stat__change admin-stat__change--up">↑ 2 new</span>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat__icon" style="background:rgba(16,185,129,0.15);color:var(--accent-emerald)">✍️</div>
+            <div class="admin-stat__value" style="background:linear-gradient(135deg,#10b981,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-count="24" data-duration="1000">0</div>
+            <div class="admin-stat__label">Blog Posts</div>
+            <span class="admin-stat__change admin-stat__change--up">↑ 5 this month</span>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat__icon" style="background:rgba(245,158,11,0.15);color:var(--accent-amber)">👁️</div>
+            <div class="admin-stat__value" style="background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-count="48200" data-suffix="+" data-duration="2000">0</div>
+            <div class="admin-stat__label">Page Views (30d)</div>
+            <span class="admin-stat__change admin-stat__change--up">↑ 23%</span>
+          </div>
+        </div>
+
+        <!-- Two col -->
+        <div class="admin-two-col" style="margin-bottom:1.5rem">
+          <!-- Chart -->
+          <div class="admin-chart-area">
+            <div class="admin-chart-header">
+              <div>
+                <div class="admin-chart-title">Membership Growth</div>
+                <div style="font-size:.8125rem;color:var(--text-muted)">Last 12 months</div>
+              </div>
+              <div class="tabs" style="transform:scale(.9);transform-origin:right">
+                <button class="tab active">Monthly</button>
+                <button class="tab" onclick="this.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Weekly</button>
+                <button class="tab" onclick="this.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Daily</button>
+              </div>
+            </div>
+            <canvas id="analytics-chart" aria-label="Analytics chart"></canvas>
+          </div>
+
+          <!-- Activity Feed -->
+          <div class="admin-table-wrap">
+            <div class="admin-table-header">
+              <span class="admin-table-title">Recent Activity</span>
+            </div>
+            <div class="activity-feed">
+              <div class="activity-item">
+                <div class="activity-item__icon" style="background:rgba(99,102,241,0.15)">👤</div>
+                <div class="activity-item__text"><strong>Akash Kumar</strong> joined Computer Society chapter</div>
+                <div class="activity-item__time">2m ago</div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-item__icon" style="background:rgba(16,185,129,0.15)">📝</div>
+                <div class="activity-item__text"><strong>Aryan Rao</strong> published a new blog post</div>
+                <div class="activity-item__time">15m ago</div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-item__icon" style="background:rgba(6,182,212,0.15)">📅</div>
+                <div class="activity-item__text"><strong>AI Bootcamp</strong> event registration opened</div>
+                <div class="activity-item__time">1h ago</div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-item__icon" style="background:rgba(245,158,11,0.15)">🏆</div>
+                <div class="activity-item__text"><strong>Robo Arena</strong> team won national prize</div>
+                <div class="activity-item__time">3h ago</div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-item__icon" style="background:rgba(236,72,153,0.15)">🖼️</div>
+                <div class="activity-item__text"><strong>12 photos</strong> added to gallery</div>
+                <div class="activity-item__time">5h ago</div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-item__icon" style="background:rgba(99,102,241,0.15)">📢</div>
+                <div class="activity-item__text"><strong>TechFest 2025</strong> announcement published</div>
+                <div class="activity-item__time">1d ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="margin-bottom:1.5rem">
+          <div style="font-size:.875rem;font-weight:600;margin-bottom:1rem;color:var(--text-secondary)">Quick Actions</div>
+          <div class="admin-quick-actions">
+            <button class="quick-action-btn" onclick="showSection('members',document.querySelector('[onclick*=members]'));showToast('Opening new member form','info')">
+              <span class="quick-action-btn__icon">➕</span>Add Member
+            </button>
+            <button class="quick-action-btn" onclick="showSection('events',document.querySelector('[onclick*=events]'));showToast('Opening event creator','info')">
+              <span class="quick-action-btn__icon">📅</span>Create Event
+            </button>
+            <button class="quick-action-btn" onclick="showSection('blog',document.querySelector('[onclick*=blog]'));showToast('Opening blog editor','info')">
+              <span class="quick-action-btn__icon">✍️</span>Write Post
+            </button>
+            <button class="quick-action-btn" onclick="showToast('Announcement sent! 📢','success')">
+              <span class="quick-action-btn__icon">📢</span>Send Announcement
+            </button>
+          </div>
+        </div>
+
+        <!-- Recent Members Table -->
+        <div class="admin-table-wrap">
+          <div class="admin-table-header">
+            <span class="admin-table-title">Recent Members</span>
+            <div class="admin-table-actions">
+              <div class="search-wrap" style="width:200px">
+                <span class="search-icon" style="font-size:14px">🔍</span>
+                <input type="text" class="input" placeholder="Search..." style="padding-left:2rem;height:32px;font-size:.8125rem" oninput="searchTable(this,'members-tbody')"/>
+              </div>
+              <button class="btn btn--primary btn--sm" onclick="showToast('Exported to CSV ✓','success')">Export</button>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Member</th>
+                  <th>Chapter</th>
+                  <th>Role</th>
+                  <th>Joined</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="members-tbody">
+                <tr>
+                  <td><div style="display:flex;align-items:center;gap:.75rem"><div class="avatar" style="width:32px;height:32px;font-size:12px;background:linear-gradient(135deg,#6366f1,#8b5cf6)">AK</div><div><div style="font-weight:600;color:var(--text-primary)">Akash Kumar</div><div style="font-size:.75rem;color:var(--text-muted)">akash@ieee.org</div></div></div></td>
+                  <td>Computer Society</td>
+                  <td><span class="badge badge--default">Member</span></td>
+                  <td class="font-mono" style="font-size:.8125rem">Jul 20, 2025</td>
+                  <td><span class="badge badge--success">Active</span></td>
+                  <td><div class="admin-table__actions-cell"><button class="admin-table__action-btn" data-tooltip="Edit" onclick="showToast('Opening editor...','info')">✏️</button><button class="admin-table__action-btn--danger admin-table__action-btn" data-tooltip="Remove" onclick="showToast('Removed member','error')">🗑️</button></div></td>
+                </tr>
+                <tr>
+                  <td><div style="display:flex;align-items:center;gap:.75rem"><div class="avatar" style="width:32px;height:32px;font-size:12px;background:linear-gradient(135deg,#06b6d4,#3b82f6)">MJ</div><div><div style="font-weight:600;color:var(--text-primary)">Maya Joshi</div><div style="font-size:.75rem;color:var(--text-muted)">maya@ieee.org</div></div></div></td>
+                  <td>Computer Society</td>
+                  <td><span class="badge badge--accent">Core</span></td>
+                  <td class="font-mono" style="font-size:.8125rem">Jul 18, 2025</td>
+                  <td><span class="badge badge--success">Active</span></td>
+                  <td><div class="admin-table__actions-cell"><button class="admin-table__action-btn" onclick="showToast('Opening editor...','info')">✏️</button><button class="admin-table__action-btn admin-table__action-btn--danger" onclick="showToast('Removed','error')">🗑️</button></div></td>
+                </tr>
+                <tr>
+                  <td><div style="display:flex;align-items:center;gap:.75rem"><div class="avatar" style="width:32px;height:32px;font-size:12px;background:linear-gradient(135deg,#10b981,#06b6d4)">KS</div><div><div style="font-weight:600;color:var(--text-primary)">Kavya Shetty</div><div style="font-size:.75rem;color:var(--text-muted)">kavya@ieee.org</div></div></div></td>
+                  <td>Signal Processing</td>
+                  <td><span class="badge badge--default">Member</span></td>
+                  <td class="font-mono" style="font-size:.8125rem">Jul 15, 2025</td>
+                  <td><span class="badge badge--success">Active</span></td>
+                  <td><div class="admin-table__actions-cell"><button class="admin-table__action-btn" onclick="showToast('Opening editor...','info')">✏️</button><button class="admin-table__action-btn admin-table__action-btn--danger" onclick="showToast('Removed','error')">🗑️</button></div></td>
+                </tr>
+                <tr>
+                  <td><div style="display:flex;align-items:center;gap:.75rem"><div class="avatar" style="width:32px;height:32px;font-size:12px;background:linear-gradient(135deg,#8b5cf6,#ec4899)">TN</div><div><div style="font-weight:600;color:var(--text-primary)">Tejas Nair</div><div style="font-size:.75rem;color:var(--text-muted)">tejas@ieee.org</div></div></div></td>
+                  <td>Robotics Society</td>
+                  <td><span class="badge badge--accent">Core</span></td>
+                  <td class="font-mono" style="font-size:.8125rem">Jul 12, 2025</td>
+                  <td><span class="badge badge--warning">Pending</span></td>
+                  <td><div class="admin-table__actions-cell"><button class="admin-table__action-btn" onclick="showToast('Approved! ✅','success')">✅</button><button class="admin-table__action-btn admin-table__action-btn--danger" onclick="showToast('Rejected','error')">❌</button></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════ ANALYTICS ════════════════════ -->
+      <div class="admin-section" id="section-analytics">
+        <div class="admin-stats-row" style="grid-template-columns:repeat(3,1fr)">
+          <div class="admin-stat">
+            <div class="admin-stat__icon" style="background:rgba(99,102,241,0.15);color:var(--accent-indigo)">👁️</div>
+            <div class="admin-stat__value text-gradient" data-count="48200" data-suffix="+" data-duration="2000">0+</div>
+            <div class="admin-stat__label">Total Page Views</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat__icon" style="background:rgba(6,182,212,0.15);color:var(--accent-cyan)">🕒</div>
+            <div class="admin-stat__value" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">2.4</div>
+            <div class="admin-stat__label">Avg. Session (min)</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat__icon" style="background:rgba(16,185,129,0.15);color:var(--accent-emerald)">📱</div>
+            <div class="admin-stat__value" style="background:linear-gradient(135deg,#10b981,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent" data-count="68" data-suffix="%">0%</div>
+            <div class="admin-stat__label">Mobile Traffic</div>
+          </div>
+        </div>
+
+        <div class="admin-two-col">
+          <div class="admin-chart-area">
+            <div class="admin-chart-header">
+              <div class="admin-chart-title">Traffic Sources</div>
+            </div>
+            <div class="donut-chart-wrap" style="padding:1rem;justify-content:center">
+              <svg viewBox="0 0 160 160" width="160" height="160">
+                <circle cx="80" cy="80" r="65" fill="none" stroke="rgba(99,102,241,0.8)" stroke-width="20" stroke-dasharray="245 163" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
+                <circle cx="80" cy="80" r="65" fill="none" stroke="rgba(6,182,212,0.7)" stroke-width="20" stroke-dasharray="98 310" stroke-dashoffset="-245" transform="rotate(-90 80 80)"/>
+                <circle cx="80" cy="80" r="65" fill="none" stroke="rgba(16,185,129,0.7)" stroke-width="20" stroke-dasharray="65 343" stroke-dashoffset="-343" transform="rotate(-90 80 80)"/>
+                <text x="80" y="84" text-anchor="middle" fill="var(--text-primary)" font-size="16" font-weight="700" font-family="Inter">Traffic</text>
+              </svg>
+              <div class="donut-legend">
+                <div class="donut-legend-item"><div class="donut-legend-dot" style="background:rgba(99,102,241,0.8)"></div>Direct — 60%</div>
+                <div class="donut-legend-item"><div class="donut-legend-dot" style="background:rgba(6,182,212,0.7)"></div>Organic — 24%</div>
+                <div class="donut-legend-item"><div class="donut-legend-dot" style="background:rgba(16,185,129,0.7)"></div>Social — 16%</div>
+              </div>
+            </div>
+          </div>
+          <div class="admin-chart-area">
+            <div class="admin-chart-header"><div class="admin-chart-title">Top Pages</div></div>
+            <div class="activity-feed">
+              <div class="activity-item" style="border:none;padding:.5rem 0"><div style="flex:1;font-size:.875rem;color:var(--text-secondary)">/index.html</div><div style="font-family:var(--font-mono);font-size:.8125rem;color:var(--text-muted)">18,240</div></div>
+              <div class="activity-item" style="border:none;padding:.5rem 0"><div style="flex:1;font-size:.875rem;color:var(--text-secondary)">/events.html</div><div style="font-family:var(--font-mono);font-size:.8125rem;color:var(--text-muted)">12,100</div></div>
+              <div class="activity-item" style="border:none;padding:.5rem 0"><div style="flex:1;font-size:.875rem;color:var(--text-secondary)">/blog.html</div><div style="font-family:var(--font-mono);font-size:.8125rem;color:var(--text-muted)">8,450</div></div>
+              <div class="activity-item" style="border:none;padding:.5rem 0"><div style="flex:1;font-size:.875rem;color:var(--text-secondary)">/team.html</div><div style="font-family:var(--font-mono);font-size:.8125rem;color:var(--text-muted)">5,200</div></div>
+              <div class="activity-item" style="border:none;padding:.5rem 0"><div style="flex:1;font-size:.875rem;color:var(--text-secondary)">/gallery.html</div><div style="font-family:var(--font-mono);font-size:.8125rem;color:var(--text-muted)">4,210</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════ MEMBERS ══════════════════════ -->
+      <div class="admin-section" id="section-members">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
+          <div>
+            <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:.25rem">Members</h2>
+            <p style="color:var(--text-muted);font-size:.875rem">Manage all IEEE SB members across chapters</p>
+          </div>
+          <button class="btn btn--primary" onclick="showToast('Add member form opened','info')">+ Add Member</button>
+        </div>
+
+        <div class="admin-stats-row" style="grid-template-columns:repeat(3,1fr);margin-bottom:2rem">
+          <div class="admin-stat">
+            <div class="admin-stat__icon" style="background:rgba(99,102,241,0.15)">👥</div>
+            <div class="admin-stat__value text-gradient" data-count="1247">0</div>
+            <div class="admin-stat__label">Total Members</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat__icon" style="background:rgba(16,185,129,0.15)">✅</div>
+            <div class="admin-stat__value" style="background:linear-gradient(135deg,#10b981,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent" data-count="1180">0</div>
+            <div class="admin-stat__label">Active</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat__icon" style="background:rgba(245,158,11,0.15)">⏳</div>
+            <div class="admin-stat__value" style="background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent" data-count="67">0</div>
+            <div class="admin-stat__label">Pending Approval</div>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap">
+          <div class="admin-table-header">
+            <span class="admin-table-title">All Members</span>
+            <div class="admin-table-actions">
+              <div class="tabs" style="transform:scale(.85);transform-origin:right">
+                <button class="tab active">All</button>
+                <button class="tab" onclick="this.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Active</button>
+                <button class="tab" onclick="this.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Pending</button>
+              </div>
+              <button class="btn btn--ghost btn--sm" onclick="showToast('Exported ✓','success')">Export CSV</button>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="admin-table">
+              <thead><tr><th>Member</th><th>Chapter</th><th>Role</th><th>Events</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td><div style="display:flex;align-items:center;gap:.75rem"><div class="avatar" style="width:32px;height:32px;font-size:12px;background:linear-gradient(135deg,#6366f1,#8b5cf6)">AR</div><div><div style="font-weight:600;color:var(--text-primary)">Arjun Raj</div><div style="font-size:.75rem;color:var(--text-muted)">arjun@ieee.org</div></div></div></td><td>–</td><td><span class="badge badge--accent" style="background:rgba(99,102,241,0.2)">Chair</span></td><td class="font-mono">42</td><td class="font-mono" style="font-size:.8125rem">Jan 2022</td><td><span class="badge badge--success">Active</span></td><td><div class="admin-table__actions-cell"><button class="admin-table__action-btn" onclick="showToast('Opening profile...','info')">👁️</button><button class="admin-table__action-btn" onclick="showToast('Editing...','info')">✏️</button></div></td></tr>
+                <tr><td><div style="display:flex;align-items:center;gap:.75rem"><div class="avatar" style="width:32px;height:32px;font-size:12px;background:linear-gradient(135deg,#06b6d4,#3b82f6)">SM</div><div><div style="font-weight:600;color:var(--text-primary)">Sneha Menon</div><div style="font-size:.75rem;color:var(--text-muted)">sneha@ieee.org</div></div></div></td><td>WIE</td><td><span class="badge badge--accent">Vice Chair</span></td><td class="font-mono">38</td><td class="font-mono" style="font-size:.8125rem">Feb 2022</td><td><span class="badge badge--success">Active</span></td><td><div class="admin-table__actions-cell"><button class="admin-table__action-btn" onclick="showToast('Opening profile...','info')">👁️</button><button class="admin-table__action-btn" onclick="showToast('Editing...','info')">✏️</button></div></td></tr>
+                <tr><td><div style="display:flex;align-items:center;gap:.75rem"><div class="avatar" style="width:32px;height:32px;font-size:12px;background:linear-gradient(135deg,#10b981,#06b6d4)">AK</div><div><div style="font-weight:600;color:var(--text-primary)">Akash Kumar</div><div style="font-size:.75rem;color:var(--text-muted)">akash@ieee.org</div></div></div></td><td>CS</td><td><span class="badge badge--default">Member</span></td><td class="font-mono">8</td><td class="font-mono" style="font-size:.8125rem">Jul 2025</td><td><span class="badge badge--warning">Pending</span></td><td><div class="admin-table__actions-cell"><button class="admin-table__action-btn" onclick="showToast('Approved! ✅','success')">✅</button><button class="admin-table__action-btn admin-table__action-btn--danger" onclick="showToast('Rejected','error')">❌</button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════ EVENTS ADMIN ═════════════════ -->
+      <div class="admin-section" id="section-events">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
+          <div><h2 style="font-size:1.5rem;font-weight:700;margin-bottom:.25rem">Events</h2><p style="color:var(--text-muted);font-size:.875rem">Create and manage all IEEE SB events</p></div>
+          <button class="btn btn--primary" onclick="showToast('Event creator opened','info')">+ Create Event</button>
+        </div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-header"><span class="admin-table-title">All Events</span><div class="admin-table-actions"><button class="btn btn--ghost btn--sm" onclick="showToast('Exported ✓','success')">Export</button></div></div>
+          <div style="overflow-x:auto">
+            <table class="admin-table">
+              <thead><tr><th>Event</th><th>Category</th><th>Date</th><th>Registered</th><th>Capacity</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td><div style="font-weight:600;color:var(--text-primary)">TechFest 2025</div><div style="font-size:.75rem;color:var(--text-muted)">Annual Conference</div></td><td>Conference</td><td class="font-mono" style="font-size:.8125rem">Aug 15–17</td><td class="font-mono">847</td><td class="font-mono">1500</td><td><span class="badge badge--success">Open</span></td><td><div class="admin-table__actions-cell"><button class="admin-table__action-btn" onclick="showToast('Editing event...','info')">✏️</button><button class="admin-table__action-btn" onclick="showToast('Event duplicated','success')">⧉</button><button class="admin-table__action-btn admin-table__action-btn--danger" onclick="showToast('Event deleted','error')">🗑️</button></div></td></tr>
+                <tr><td><div style="font-weight:600;color:var(--text-primary)">AI Bootcamp</div><div style="font-size:.75rem;color:var(--text-muted)">Workshop</div></td><td>Workshop</td><td class="font-mono" style="font-size:.8125rem">Aug 20</td><td class="font-mono">55</td><td class="font-mono">60</td><td><span class="badge badge--warning">Filling Up</span></td><td><div class="admin-table__actions-cell"><button class="admin-table__action-btn" onclick="showToast('Editing...','info')">✏️</button><button class="admin-table__action-btn admin-table__action-btn--danger" onclick="showToast('Deleted','error')">🗑️</button></div></td></tr>
+                <tr><td><div style="font-weight:600;color:var(--text-primary)">Robo Arena</div><div style="font-size:.75rem;color:var(--text-muted)">Competition</div></td><td>Competition</td><td class="font-mono" style="font-size:.8125rem">Sep 5</td><td class="font-mono">76</td><td class="font-mono">100</td><td><span class="badge badge--success">Open</span></td><td><div class="admin-table__actions-cell"><button class="admin-table__action-btn" onclick="showToast('Editing...','info')">✏️</button><button class="admin-table__action-btn admin-table__action-btn--danger" onclick="showToast('Deleted','error')">🗑️</button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════ BLOG ADMIN ═══════════════════ -->
+      <div class="admin-section" id="section-blog">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
+          <div><h2 style="font-size:1.5rem;font-weight:700;margin-bottom:.25rem">Blog Posts</h2><p style="color:var(--text-muted);font-size:.875rem">Create, edit and publish articles</p></div>
+          <button class="btn btn--primary" onclick="showToast('Blog editor opened ✍️','info')">+ Write Post</button>
+        </div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-header"><span class="admin-table-title">All Posts</span></div>
+          <div style="overflow-x:auto">
+            <table class="admin-table">
+              <thead><tr><th>Title</th><th>Author</th><th>Category</th><th>Published</th><th>Views</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td style="color:var(--text-primary);font-weight:500">The Future of AI: Engineering Intelligence at Scale</td><td>Aryan Rao</td><td><span class="badge badge--accent">AI</span></td><td class="font-mono" style="font-size:.8125rem">Jul 20</td><td class="font-mono">2,400</td><td><span class="badge badge--success">Published</span></td><td><div class="admin-table__actions-cell"><button class="admin-table__action-btn" onclick="showToast('Editing...','info')">✏️</button><button class="admin-table__action-btn" onclick="showToast('Unpublished','info')">⊘</button><button class="admin-table__action-btn admin-table__action-btn--danger" onclick="showToast('Deleted','error')">🗑️</button></div></td></tr>
+                <tr><td style="color:var(--text-primary);font-weight:500">Building Autonomous Systems: Lessons from the Field</td><td>Sneha Nair</td><td><span class="badge badge--default">Robotics</span></td><td class="font-mono" style="font-size:.8125rem">Jul 15</td><td class="font-mono">1,820</td><td><span class="badge badge--success">Published</span></td><td><div class="admin-table__actions-cell"><button class="admin-table__action-btn" onclick="showToast('Editing...','info')">✏️</button><button class="admin-table__action-btn admin-table__action-btn--danger" onclick="showToast('Deleted','error')">🗑️</button></div></td></tr>
+                <tr><td style="color:var(--text-primary);font-weight:500">TechFest 2025 Preview: What to Expect</td><td>Priya Kumar</td><td><span class="badge badge--default">Events</span></td><td class="font-mono" style="font-size:.8125rem">–</td><td class="font-mono">–</td><td><span class="badge badge--warning">Draft</span></td><td><div class="admin-table__actions-cell"><button class="admin-table__action-btn" onclick="showToast('Editing...','info')">✏️</button><button class="admin-table__action-btn" onclick="showToast('Published! ✅','success')">▶</button><button class="admin-table__action-btn admin-table__action-btn--danger" onclick="showToast('Deleted','error')">🗑️</button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════ GALLERY ADMIN ════════════════ -->
+      <div class="admin-section" id="section-gallery">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
+          <div><h2 style="font-size:1.5rem;font-weight:700;margin-bottom:.25rem">Gallery</h2><p style="color:var(--text-muted);font-size:.875rem">Manage photos and media albums</p></div>
+          <button class="btn btn--primary" onclick="showToast('Upload dialog opened 🖼️','info')">+ Upload Photos</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem" id="admin-gallery-grid">
+          <div style="border-radius:var(--radius-xl);overflow:hidden;position:relative;aspect-ratio:1;background:var(--surface-1)"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=300&q=70&auto=format" style="width:100%;height:100%;object-fit:cover" loading="lazy"/><div style="position:absolute;top:.5rem;right:.5rem;display:flex;gap:.25rem"><button class="admin-table__action-btn" style="background:rgba(0,0,0,0.5)" onclick="showToast('Editing...','info')">✏️</button><button class="admin-table__action-btn admin-table__action-btn--danger" style="background:rgba(0,0,0,0.5)" onclick="showToast('Deleted','error')">🗑️</button></div></div>
+          <div style="border-radius:var(--radius-xl);overflow:hidden;position:relative;aspect-ratio:1;background:var(--surface-1)"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&q=70&auto=format" style="width:100%;height:100%;object-fit:cover" loading="lazy"/><div style="position:absolute;top:.5rem;right:.5rem;display:flex;gap:.25rem"><button class="admin-table__action-btn" style="background:rgba(0,0,0,0.5)" onclick="showToast('Editing...','info')">✏️</button><button class="admin-table__action-btn admin-table__action-btn--danger" style="background:rgba(0,0,0,0.5)" onclick="showToast('Deleted','error')">🗑️</button></div></div>
+          <div style="border-radius:var(--radius-xl);overflow:hidden;position:relative;aspect-ratio:1;background:var(--surface-1)"><img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=300&q=70&auto=format" style="width:100%;height:100%;object-fit:cover" loading="lazy"/><div style="position:absolute;top:.5rem;right:.5rem;display:flex;gap:.25rem"><button class="admin-table__action-btn" style="background:rgba(0,0,0,0.5)" onclick="showToast('Editing...','info')">✏️</button><button class="admin-table__action-btn admin-table__action-btn--danger" style="background:rgba(0,0,0,0.5)" onclick="showToast('Deleted','error')">🗑️</button></div></div>
+          <div style="border-radius:var(--radius-xl);overflow:hidden;position:relative;aspect-ratio:1;background:var(--surface-1);border:2px dashed var(--border-default);display:flex;align-items:center;justify-content:center;cursor:none" onclick="showToast('Upload dialog opened 🖼️','info')"><div style="text-align:center;color:var(--text-muted)"><div style="font-size:2rem;margin-bottom:.5rem">+</div><div style="font-size:.8125rem">Upload</div></div></div>
+        </div>
+      </div>
+
+      <!-- ══════════════════ ANNOUNCEMENTS ════════════════ -->
+      <div class="admin-section" id="section-announcements">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
+          <div><h2 style="font-size:1.5rem;font-weight:700;margin-bottom:.25rem">Announcements</h2><p style="color:var(--text-muted);font-size:.875rem">Send announcements to all members</p></div>
+          <button class="btn btn--primary" onclick="showToast('Announcement sent to 1,247 members! 📢','success')">+ Send Announcement</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:var(--radius-2xl);padding:1.5rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem">
+            <div><div style="font-weight:600;margin-bottom:.5rem">TechFest 2025 Registrations Now Open!</div><div style="font-size:.875rem;color:var(--text-muted);line-height:1.6">Annual IEEE Summit registration is live. Early bird discount available till Aug 1st.</div><div style="font-size:.75rem;color:var(--text-faint);font-family:var(--font-mono);margin-top:.5rem">Sent Jul 20, 2025 · 1,247 recipients</div></div>
+            <span class="badge badge--success">Sent</span>
+          </div>
+          <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:var(--radius-2xl);padding:1.5rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem">
+            <div><div style="font-weight:600;margin-bottom:.5rem">AI Bootcamp — Final 5 Seats Remaining</div><div style="font-size:.875rem;color:var(--text-muted);line-height:1.6">Limited spots left for the Aug 20 AI & Machine Learning workshop. Register now!</div><div style="font-size:.75rem;color:var(--text-faint);font-family:var(--font-mono);margin-top:.5rem">Sent Jul 18, 2025 · 1,247 recipients</div></div>
+            <span class="badge badge--success">Sent</span>
+          </div>
+          <div style="background:var(--surface-1);border:1px dashed var(--border-default);border-radius:var(--radius-2xl);padding:1.5rem">
+            <div style="font-weight:600;margin-bottom:1rem;color:var(--text-secondary)">Draft: HackIEEE Announcement</div>
+            <textarea class="input" rows="3" placeholder="Type your announcement..." style="resize:vertical;margin-bottom:1rem">🎉 HackIEEE is back! Join us October 18-19 for a 36-hour hackathon with ₹1L+ in prizes across 6 tracks. Teams of 2-4. Register at ieee-sb.org/events</textarea>
+            <div style="display:flex;gap:.75rem">
+              <button class="btn btn--primary btn--sm" onclick="showToast('Announcement sent! 📢','success')">Send Now</button>
+              <button class="btn btn--ghost btn--sm" onclick="showToast('Saved as draft','info')">Save Draft</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════ ROLES ═════════════════════════ -->
+      <div class="admin-section" id="section-roles">
+        <div style="margin-bottom:2rem"><h2 style="font-size:1.5rem;font-weight:700;margin-bottom:.25rem">Roles & Permissions</h2><p style="color:var(--text-muted);font-size:.875rem">Manage access levels and permissions</p></div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:var(--radius-2xl);padding:1.5rem">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem"><div><div style="font-weight:700;font-size:1.1rem">Admin</div><div style="font-size:.8125rem;color:var(--text-muted)">Full system access · 2 users</div></div><span class="badge badge--accent">Super Role</span></div>
+            <div style="display:flex;flex-wrap:wrap;gap:.5rem">
+              <span class="badge badge--success">Manage Members</span><span class="badge badge--success">Create Events</span><span class="badge badge--success">Publish Blog</span><span class="badge badge--success">Upload Gallery</span><span class="badge badge--success">Send Announcements</span><span class="badge badge--success">Manage Roles</span><span class="badge badge--success">View Analytics</span>
+            </div>
+          </div>
+          <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:var(--radius-2xl);padding:1.5rem">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem"><div><div style="font-weight:700;font-size:1.1rem">Chapter Lead</div><div style="font-size:.8125rem;color:var(--text-muted)">Chapter-level management · 6 users</div></div><button class="btn btn--ghost btn--sm" onclick="showToast('Editing role...','info')">Edit</button></div>
+            <div style="display:flex;flex-wrap:wrap;gap:.5rem">
+              <span class="badge badge--success">Create Events</span><span class="badge badge--success">Publish Blog</span><span class="badge badge--success">Upload Gallery</span><span class="badge badge--default">Send Announcements</span><span class="badge badge--default">View Analytics</span>
+            </div>
+          </div>
+          <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:var(--radius-2xl);padding:1.5rem">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem"><div><div style="font-weight:700;font-size:1.1rem">Member</div><div style="font-size:.8125rem;color:var(--text-muted)">Standard access · 1239 users</div></div><button class="btn btn--ghost btn--sm" onclick="showToast('Editing role...','info')">Edit</button></div>
+            <div style="display:flex;flex-wrap:wrap;gap:.5rem">
+              <span class="badge badge--success">View Events</span><span class="badge badge--success">View Blog</span><span class="badge badge--success">View Gallery</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════ SETTINGS ══════════════════════ -->
+      <div class="admin-section" id="section-settings">
+        <div style="margin-bottom:2rem"><h2 style="font-size:1.5rem;font-weight:700;margin-bottom:.25rem">Settings</h2><p style="color:var(--text-muted);font-size:.875rem">Configure system settings and preferences</p></div>
+        <div style="max-width:640px;display:flex;flex-direction:column;gap:1.25rem">
+          <div class="admin-chart-area">
+            <div style="font-weight:600;margin-bottom:1.5rem">General</div>
+            <div style="display:flex;flex-direction:column;gap:1rem">
+              <div class="form-group"><label class="form-label">Organization Name</label><input class="input" value="IEEE Student Branch"/></div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Contact Email</label><input class="input" type="email" value="ieee@college.edu"/></div>
+                <div class="form-group"><label class="form-label">Website URL</label><input class="input" value="https://ieee-sb.org"/></div>
+              </div>
+            </div>
+          </div>
+          <div class="admin-chart-area">
+            <div style="font-weight:600;margin-bottom:1.5rem">Feature Toggles</div>
+            <div style="display:flex;flex-direction:column;gap:1rem">
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:.875rem">Enable Public Blog</span><button class="admin-toggle on" onclick="this.classList.toggle('on')"></button></div>
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:.875rem">Allow Event Registration</span><button class="admin-toggle on" onclick="this.classList.toggle('on')"></button></div>
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:.875rem">Gallery Public Access</span><button class="admin-toggle on" onclick="this.classList.toggle('on')"></button></div>
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:.875rem">Newsletter Subscription</span><button class="admin-toggle on" onclick="this.classList.toggle('on')"></button></div>
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:.875rem">Maintenance Mode</span><button class="admin-toggle" onclick="this.classList.toggle('on')"></button></div>
+            </div>
+          </div>
+          <button class="btn btn--primary" onclick="showToast('Settings saved! ✅','success')">Save Changes</button>
+        </div>
+      </div>
+
+      <!-- Placeholder sections -->
+      <div class="admin-section" id="section-media">
+        <div style="margin-bottom:2rem"><h2 style="font-size:1.5rem;font-weight:700;margin-bottom:.25rem">Media Library</h2><p style="color:var(--text-muted);font-size:.875rem">Browse all uploaded files and media</p></div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem">
+          <div style="border-radius:var(--radius-xl);overflow:hidden;aspect-ratio:1"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=200&q=60&auto=format" style="width:100%;height:100%;object-fit:cover" loading="lazy"/></div>
+          <div style="border-radius:var(--radius-xl);overflow:hidden;aspect-ratio:1"><img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=200&q=60&auto=format" style="width:100%;height:100%;object-fit:cover" loading="lazy"/></div>
+          <div style="border-radius:var(--radius-xl);overflow:hidden;aspect-ratio:1"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=200&q=60&auto=format" style="width:100%;height:100%;object-fit:cover" loading="lazy"/></div>
+          <div style="border-radius:var(--radius-xl);overflow:hidden;aspect-ratio:1"><img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=200&q=60&auto=format" style="width:100%;height:100%;object-fit:cover" loading="lazy"/></div>
+          <div style="border-radius:var(--radius-xl);overflow:hidden;aspect-ratio:1;background:var(--surface-1);border:2px dashed var(--border-default);display:flex;align-items:center;justify-content:center;cursor:none;font-size:1.5rem" onclick="showToast('Upload opened','info')">+</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/core.js"></script>
+<script src="js/counters.js"></script>
+<script src="js/animations.js"></script>
+<script>
+  // Section navigation
+  function showSection(id, btn) {
+    document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.admin-nav-link').forEach(l => l.classList.remove('active'));
+    const section = document.getElementById('section-' + id);
+    if (section) section.classList.add('active');
+    if (btn) btn.classList.add('active');
+    const titles = { dashboard:'Dashboard', analytics:'Analytics', members:'Members', events:'Events', blog:'Blog Posts', gallery:'Gallery', announcements:'Announcements', roles:'Roles & Permissions', media:'Media Library', settings:'Settings' };
+    document.getElementById('section-title').textContent = titles[id] || id;
+    // Re-init counters for new section
+    document.querySelectorAll(`#section-${id} [data-count]`).forEach(el => {
+      const c = new AnimatedCounter(el);
+      c.ran = false;
+      c.run();
+    });
+  }
+
+  // Sidebar toggle (mobile)
+  function toggleSidebar() {
+    document.getElementById('admin-sidebar').classList.toggle('open');
+    document.getElementById('admin-overlay').classList.toggle('show');
+  }
+
+  // Responsive: show hamburger on mobile
+  if (window.innerWidth <= 1024) {
+    document.getElementById('sidebar-toggle').style.display = 'flex';
+  }
+  window.addEventListener('resize', () => {
+    document.getElementById('sidebar-toggle').style.display = window.innerWidth <= 1024 ? 'flex' : 'none';
+  });
+
+  // Table search
+  function searchTable(input, tbodyId) {
+    const q = input.value.toLowerCase();
+    document.querySelectorAll(`#${tbodyId} tr`).forEach(row => {
+      row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+  }
+
+  // Analytics chart — hand-drawn canvas bars
+  function drawChart() {
+    const canvas = document.getElementById('analytics-chart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width - 48;
+    canvas.height = 260;
+    const W = canvas.width, H = canvas.height;
+    const months = ['Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul'];
+    const data = [820, 890, 950, 1020, 1080, 1050, 1100, 1150, 1180, 1200, 1230, 1247];
+    const max = Math.max(...data);
+    const pad = { top: 20, bottom: 40, left: 40, right: 10 };
+    const cw = W - pad.left - pad.right;
+    const ch = H - pad.top - pad.bottom;
+    const barW = (cw / months.length) * 0.55;
+    const gap = cw / months.length;
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 4; i++) {
+      const y = pad.top + (ch / 4) * i;
+      ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y); ctx.stroke();
+    }
+
+    // Bars
+    data.forEach((val, i) => {
+      const x = pad.left + i * gap + (gap - barW) / 2;
+      const barH = (val / max) * ch;
+      const y = pad.top + ch - barH;
+      const grad = ctx.createLinearGradient(0, y, 0, y + barH);
+      grad.addColorStop(0, 'rgba(99,102,241,0.9)');
+      grad.addColorStop(1, 'rgba(99,102,241,0.2)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.roundRect(x, y, barW, barH, [4, 4, 0, 0]);
+      ctx.fill();
+      // Month label
+      ctx.fillStyle = 'rgba(248,250,252,0.35)';
+      ctx.font = '11px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(months[i], x + barW / 2, H - 12);
+    });
+  }
+
+  // Animate bars in after load
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(drawChart, 800);
+    window.addEventListener('resize', drawChart);
+  });
+</script>
+</body>
+</html>

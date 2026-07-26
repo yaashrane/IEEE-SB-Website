@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — IEEE Student Branch</title>
+  <meta name="description" content="Explore the IEEE Student Branch gallery — events, workshops, competitions, and unforgettable moments." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/globals.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/pages/gallery.css" />
+</head>
+<body>
+<div id="preloader">
+  <div class="preloader__logo"><svg viewBox="0 0 80 80" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs><rect width="80" height="80" rx="20" fill="url(#lg)"/><text x="50%" y="56%" dominant-baseline="middle" text-anchor="middle" fill="white" font-family="Inter" font-weight="900" font-size="32">Σ</text></svg></div>
+  <div class="preloader__text">Gallery</div>
+  <div class="preloader__bar-wrap"><div class="preloader__bar"></div></div>
+</div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="cursor-glow"></div>
+<div id="scroll-progress"></div>
+<div id="toast-container"></div>
+
+<div id="cmd-palette">
+  <div class="cmd-palette__backdrop"></div>
+  <div class="cmd-palette__dialog">
+    <div class="cmd-palette__input-wrap"><span class="cmd-palette__icon">⌘</span><input type="text" class="cmd-palette__input" placeholder="Search..." autocomplete="off"/></div>
+    <div class="cmd-palette__results"></div>
+    <div class="cmd-palette__footer"><span class="cmd-palette__hint">↑↓ navigate</span><span class="cmd-palette__hint">↵ open</span><span class="cmd-palette__hint">Esc close</span></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button class="lightbox__prev" id="lb-prev" aria-label="Previous">←</button>
+  <img src="" alt="" class="lightbox__img" id="lb-img"/>
+  <button class="lightbox__next" id="lb-next" aria-label="Next">→</button>
+  <button class="lightbox__close" id="lb-close" aria-label="Close">✕</button>
+</div>
+
+<nav class="nav">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo"><div class="nav__logo-mark">Σ</div><span>IEEE <span style="font-weight:300;opacity:0.6">SB</span></span></a>
+      <div class="nav__links">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="team.html" class="nav__link">Team</a>
+        <a href="events.html" class="nav__link">Events</a>
+        <a href="gallery.html" class="nav__link active">Gallery</a>
+        <a href="blog.html" class="nav__link">Blog</a>
+      </div>
+      <div class="nav__actions">
+        <button class="nav__cmd-btn" data-cmd-open><span>Search</span><kbd>⌘K</kbd></button>
+        <button class="nav__theme-btn" data-theme-toggle>🌙</button>
+        <button class="nav__hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="nav__mobile-menu">
+      <a href="index.html" class="nav__link">Home</a><a href="team.html" class="nav__link">Team</a>
+      <a href="events.html" class="nav__link">Events</a><a href="gallery.html" class="nav__link active">Gallery</a>
+      <a href="blog.html" class="nav__link">Blog</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="gallery-hero section" aria-label="Gallery">
+  <div class="container" style="text-align:center">
+    <div class="section-label" style="justify-content:center">Visual Archive</div>
+    <h1 class="text-display reveal" style="margin-bottom:1rem">Moments in <span class="text-gradient">Motion</span></h1>
+    <p class="reveal reveal-delay-1" style="color:var(--text-secondary);max-width:480px;margin:0 auto;font-size:1.125rem;line-height:1.7">
+      Every photo tells a story of innovation, collaboration, and excellence. Explore our journey through the lens.
+    </p>
+  </div>
+</section>
+
+<!-- GALLERY CONTROLS -->
+<div class="container">
+  <div class="gallery-controls reveal">
+    <div class="filter-group" id="gallery-filters">
+      <button class="filter-pill active" onclick="filterGallery(this,'all')">All</button>
+      <button class="filter-pill" onclick="filterGallery(this,'conference')">Conference</button>
+      <button class="filter-pill" onclick="filterGallery(this,'workshop')">Workshop</button>
+      <button class="filter-pill" onclick="filterGallery(this,'competition')">Competition</button>
+      <button class="filter-pill" onclick="filterGallery(this,'social')">Social</button>
+      <button class="filter-pill" onclick="filterGallery(this,'team')">Team</button>
+    </div>
+    <span class="text-muted text-sm font-mono" id="gallery-count">Showing 18 photos</span>
+  </div>
+
+  <!-- MASONRY GRID -->
+  <div class="masonry-grid" id="masonry-grid">
+
+    <div class="masonry-item" data-category="conference" data-index="0" onclick="openLightbox(0)">
+      <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80&auto=format" alt="TechFest 2024 — Annual Conference" class="masonry-item__img" loading="lazy"/>
+      <div class="masonry-item__overlay">
+        <div class="masonry-item__title">TechFest 2024</div>
+        <div class="masonry-item__category">Conference</div>
+      </div>
+      <div class="masonry-item__expand">⤡</div>
+    </div>
+
+    <div class="masonry-item" data-category="workshop" data-index="1" onclick="openLightbox(1)">
+      <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=80&auto=format" alt="AI Bootcamp" class="masonry-item__img" loading="lazy"/>
+      <div class="masonry-item__overlay">
+        <div class="masonry-item__title">AI Bootcamp 2024</div>
+        <div class="masonry-item__category">Workshop</div>
+      </div>
+      <div class="masonry-item__expand">⤡</div>
+    </div>
+
+    <div class="masonry-item" data-category="team" data-index="2" onclick="openLightbox(2)">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80&auto=format" alt="Team Meeting" class="masonry-item__img" loading="lazy"/>
+      <div class="masonry-item__overlay">
+        <div class="masonry-item__title">Core Team 2024</div>
+        <div class="masonry-item__category">Team</div>
+      </div>
+      <div class="masonry-item__expand">⤡</div>
+    </div>
+
+    <div class="masonry-item" data-category="competition" data-index="3" onclick="openLightbox(3)">
+      <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&q=80&auto=format" alt="Robotics Challenge" class="masonry-item__img" loading="lazy"/>
+      <div class="masonry-item__overlay">
+        <div class="masonry-item__title">Robo Arena 2024</div>
+        <div class="masonry-item__category">Competition</div>
+      </div>
+      <div class="masonry-item__expand">⤡</div>
+    </div>
+
+    <div class="masonry-item" data-category="social" data-index="4" onclick="openLightbox(4)">
+      <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&q=80&auto=format" alt="Awards Night" class="masonry-item__img" loading="lazy"/>
+      <div class="masonry-item__overlay">
+        <div class="masonry-item__title">Awards Night 2024</div>
+        <div class="masonry-item__category">Social</div>
+      </div>
+      <div class="masonry-item__expand">⤡</div>
+    </div>
+
+    <div class="masonry-item" data-category="conference" data-index="5" onclick="openLightbox(5)">
+      <img src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=600&q=80&auto=format" alt="Speaker Session" class="masonry-item__img" loading="lazy"/>
+      <div class="masonry-item__overlay">
+        <div class="masonry-item__title">Keynote 2024</div>
+        <div class="masonry-item__category">Conference</div>
+      </div>
+      <div class="masonry-item__expand">⤡</div>
+    </div>
+
+    <div class="masonry-item" data-category="workshop" data-index="6" onclick="openLightbox(6)">
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80&auto=format" alt="PCB Workshop" class="masonry-item__img" loading="lazy"/>
+      <div class="masonry-item__overlay">
+        <div class="masonry-item__title">PCB Design Workshop</div>
+        <div class="masonry-item__category">Workshop</div>
+      </div>
+      <div class="masonry-item__expand">⤡</div>
+    </div>
+
+    <div class="masonry-item" data-category="competition" data-index="7" onclick="openLightbox(7)">
+      <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=80&auto=format" alt="Hackathon" class="masonry-item__img" loading="lazy"/>
+      <div class="masonry-item__overlay">
+        <div class="masonry-item__title">HackIEEE 2024</div>
+        <div class="masonry-item__category">Competition</div>
+      </div>
+      <div class="masonry-item__expand">⤡</div>
+    </div>
+
+    <div class="masonry-item" data-category="team" data-index="8" onclick="openLightbox(8)">
+      <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600&q=80&auto=format" alt="Annual Retreat" class="masonry-item__img" loading="lazy"/>
+      <div class="masonry-item__overlay">
+        <div class="masonry-item__title">Annual Retreat</div>
+        <div class="masonry-item__category">Team</div>
+      </div>
+      <div class="masonry-item__expand">⤡</div>
+    </div>
+
+    <div class="masonry-item" data-category="social" data-index="9" onclick="openLightbox(9)">
+      <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&q=80&auto=format" alt="Networking Event" class="masonry-item__img" loading="lazy"/>
+      <div class="masonry-item__overlay">
+        <div class="masonry-item__title">Networking Night</div>
+        <div class="masonry-item__category">Social</div>
+      </div>
+      <div class="masonry-item__expand">⤡</div>
+    </div>
+
+    <div class="masonry-item" data-category="conference" data-index="10" onclick="openLightbox(10)">
+      <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=600&q=80&auto=format" alt="Panel Discussion" class="masonry-item__img" loading="lazy"/>
+      <div class="masonry-item__overlay">
+        <div class="masonry-item__title">Panel Discussion</div>
+        <div class="masonry-item__category">Conference</div>
+      </div>
+      <div class="masonry-item__expand">⤡</div>
+    </div>
+
+    <div class="masonry-item" data-category="workshop" data-index="11" onclick="openLightbox(11)">
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80&auto=format" alt="Electronics Workshop" class="masonry-item__img" loading="lazy"/>
+      <div class="masonry-item__overlay">
+        <div class="masonry-item__title">Electronics Lab</div>
+        <div class="masonry-item__category">Workshop</div>
+      </div>
+      <div class="masonry-item__expand">⤡</div>
+    </div>
+
+  </div>
+
+  <div class="gallery-load-more reveal">
+    <button class="btn btn--ghost btn--lg" onclick="showToast('All photos loaded! 🖼️','info')">Load More Photos</button>
+  </div>
+</div>
+
+<footer style="padding:2rem 0;margin-top:4rem;border-top:1px solid var(--border-subtle)">
+  <div class="container footer__bottom">
+    <a href="index.html" class="nav__logo"><div class="nav__logo-mark">Σ</div><span>IEEE SB</span></a>
+    <div style="display:flex;gap:1.5rem"><a href="index.html" class="footer__link">Home</a><a href="events.html" class="footer__link">Events</a><a href="team.html" class="footer__link">Team</a></div>
+    <p class="footer__copy">© 2025 IEEE Student Branch</p>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top">↑</button>
+<script src="js/core.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/magnetic.js"></script>
+<script>
+  const galleryImages = [
+    { src: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&q=80&auto=format', alt: 'TechFest 2024' },
+    { src: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1200&q=80&auto=format', alt: 'AI Bootcamp 2024' },
+    { src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80&auto=format', alt: 'Core Team 2024' },
+    { src: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1200&q=80&auto=format', alt: 'Robo Arena 2024' },
+    { src: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1200&q=80&auto=format', alt: 'Awards Night 2024' },
+    { src: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=1200&q=80&auto=format', alt: 'Keynote 2024' },
+    { src: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80&auto=format', alt: 'PCB Workshop' },
+    { src: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200&q=80&auto=format', alt: 'HackIEEE 2024' },
+    { src: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=1200&q=80&auto=format', alt: 'Annual Retreat' },
+    { src: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=1200&q=80&auto=format', alt: 'Networking Night' },
+    { src: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1200&q=80&auto=format', alt: 'Panel Discussion' },
+    { src: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&q=80&auto=format', alt: 'Electronics Lab' },
+  ];
+
+  let currentIndex = 0;
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
+
+  function openLightbox(i) {
+    currentIndex = i;
+    lbImg.src = galleryImages[i].src;
+    lbImg.alt = galleryImages[i].alt;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  document.getElementById('lb-close').addEventListener('click', () => {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+
+  document.getElementById('lb-prev').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+    lbImg.src = galleryImages[currentIndex].src;
+  });
+
+  document.getElementById('lb-next').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % galleryImages.length;
+    lbImg.src = galleryImages[currentIndex].src;
+  });
+
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) { lb.classList.remove('open'); document.body.style.overflow = ''; }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'ArrowLeft') document.getElementById('lb-prev').click();
+    if (e.key === 'ArrowRight') document.getElementById('lb-next').click();
+    if (e.key === 'Escape') document.getElementById('lb-close').click();
+  });
+
+  function filterGallery(btn, category) {
+    document.querySelectorAll('#gallery-filters .filter-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const items = document.querySelectorAll('.masonry-item');
+    let count = 0;
+    items.forEach((item, i) => {
+      const show = category === 'all' || item.dataset.category === category;
+      item.style.display = show ? '' : 'none';
+      if (show) { count++; item.classList.add('revealed'); }
+    });
+    document.getElementById('gallery-count').textContent = `Showing ${count} photos`;
+  }
+
+  // Reveal masonry items on load
+  document.addEventListener('DOMContentLoaded', () => {
+    const items = document.querySelectorAll('.masonry-item');
+    items.forEach((item, i) => {
+      setTimeout(() => item.classList.add('revealed'), i * 80);
+    });
+  });
+</script>
+</body>
+</html>
