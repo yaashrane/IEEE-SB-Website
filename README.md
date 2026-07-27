@@ -1,166 +1,122 @@
-# IEEE Student Branch — Official Website
+# MMIT IEEE Student Branch — Official Website
 
-A premium, fully responsive website for the IEEE Student Branch — built with pure HTML, CSS, and Vanilla JavaScript. No frameworks. No dependencies.
+> **STB Code:** `STB60226400` · **School Code:** `60227769` · **Region 10 (Asia-Pacific)**  
+> **Initiated:** 26th August 2024 (MMIT Computer Engineering Dept under Dr. Monika Dangore)  
+> **IEEE Society Official Charter:** 5th December 2024  
 
----
-
-## Live Preview
-
-> Run locally with:
-> ```bash
-> python -m http.server 3000
-> ```
-> Then open `http://localhost:3000`
+An Awwwards-grade, high-performance website for the **MMIT IEEE Student Branch** — built with HTML5, CSS3 (Design Tokens & Glassmorphism), and Vanilla JavaScript (60 FPS GPU-accelerated motion engine).
 
 ---
 
-## Pages
+## ⚡ Deployment & Hosting Architecture
 
-| Page | File | Description |
-|------|------|-------------|
-| Home | `index.html` | Hero, stats, events preview, chapters, timeline, gallery teaser, blog preview |
-| Events | `events.html` | Featured event, countdown timer, card & list view, filters |
-| Team | `team.html` | Leadership board, member grid, chapter filter |
-| Gallery | `gallery.html` | Masonry grid, lightbox, category filter |
-| Blog | `blog.html` | Article listing, search, category filter, sidebar |
-| Blog Post | `blog-post.html` | Full article, reading progress, TOC, related posts |
-| Admin | `admin.html` | Dashboard, analytics, members, events, blog, gallery management |
+The project is architected for separate, decoupled hosting:
+
+| Component | Platform | Tech Stack | Status |
+|-----------|----------|------------|--------|
+| **Frontend** | **Vercel** (`mmit-ieee-sb.vercel.app`) | HTML5, Vanilla JS, CSS3 | 🟢 Active |
+| **Backend API** | **Render / Railway** (`ieee-sb-backend.onrender.com`) | Node.js, Express, MongoDB Atlas | 🟢 Ready |
 
 ---
 
-## Project Structure
+## 🚀 Key Features
+
+### 💎 Awwwards-Grade 3D Glass Hero
+- **Multi-Layer 3D Glass Stage**: Layered frosted glass cards with specular shine, live status indicator, and glowing background core.
+- **Real-Time 3D Mouse Parallax**: Multi-axis spatial depth rotation (`rotateX`/`rotateY` with `translateZ` layered offsets).
+- **Floating 3D Glass Geometry**: Ambient rotating 3D orbital rings, glass cube, pyramid, and sphere shapes.
+- **Interactive Mouse Spotlight**: Radial glowing background spotlight tracking cursor movement smoothly.
+- **Split Word-by-Word Reveal**: Staggered typography entrance with gradient text accents.
+
+### 🏛️ Official About Our Student Branch Section
+- **Historical Milestones**: Details the journey from the *MMIT IEEE Club* (26 Aug 2024) to official *IEEE Student Branch Charter* (05 Dec 2024).
+- **Official Credentials**: Highlight cards for STB Code (`STB60226400`), School Code (`60227769`), Leadership under Dr. Monika Dangore, and Region 10 status.
+
+### 📅 Event Calendar Export Tools
+- **1-Click Google Calendar**: Direct pre-filled event synchronization link for all upcoming IEEE workshops and summits.
+- **iCal (.ics) Download Engine**: Generates and downloads native `.ics` calendar files for Apple Calendar, Outlook, and Android.
+
+### 🎨 Live Accent Color Theme Switcher
+- Floating palette widget allowing real-time accent color customization (*Indigo Cyber*, *Cyan Neon*, *Emerald Pulse*, *Sunset Amber*).
+
+### 🛠️ Interactive Capabilities
+- **Command Palette** (`⌘K` / `Ctrl+K`) for rapid site-wide search and navigation.
+- **Command CMS Portal** (`admin.html`) with full event, member, blog, and gallery management.
+- **Custom Cursor & Fluid Parallax**: Smooth tracking, magnetic buttons, and ambient glow.
+
+---
+
+## 📁 Project Structure
 
 ```
 IEEE-SB-Website/
-├── assets/                        # Images, icons (future use)
+├── assets/                        # Icons, logos, and favicons
 ├── css/
 │   ├── base/
 │   │   ├── globals.css            # Design tokens, reset, typography
 │   │   └── animations.css         # Keyframes & motion system
 │   ├── components-styles/
-│   │   ├── components.css         # Reusable UI components
-│   │   └── premium.css            # Premium interactions & effects
+│   │   ├── components.css         # Reusable UI components & navigation
+│   │   └── premium.css            # Glassmorphism, card tilt, and effects
 │   └── pages/
-│       ├── home.css
-│       ├── events.css
-│       ├── team.css
-│       ├── gallery.css
-│       ├── blog.css
-│       └── admin.css
+│       ├── home.css               # Hero 3D glass stage & About section CSS
+│       ├── events.css             # Event cards & list view
+│       ├── team.css               # Leadership & member roster
+│       ├── gallery.css            # Masonry grid & lightbox
+│       └── admin.css              # Admin CMS portal styles
 ├── js/
-│   ├── core.js                    # Preloader, theme, cursor, nav, scroll
-│   ├── animations.js              # Scroll reveal, parallax, stagger
-│   ├── counters.js                # Animated number counters & countdown
-│   ├── magnetic.js                # Magnetic buttons, card tilt, hover lighting
-│   ├── particles.js               # Canvas particle system & aurora background
-│   └── premium-interactions.js    # Premium UI enhancements
-├── docs/                          # Documentation & guides
-├── index.html
-├── events.html
-├── team.html
-├── gallery.html
-├── blog.html
-├── blog-post.html
-├── admin.html
-└── render.yaml                    # Render.com deployment config
+│   ├── core.js                    # Preloader, theme engine, cursor, nav, scroll
+│   ├── hero-epic.js               # 3D Glass stage tilt, spotlight & word reveal
+│   ├── verifier-calendar.js       # Google Calendar & iCal (.ics) exporter engine
+│   ├── particles.js               # IEEEDigitalNetwork canvas particle system
+│   ├── animations.js              # IntersectionObserver scroll reveal system
+│   ├── counters.js                # Count-up timers & countdown engine
+│   ├── magnetic.js                # Magnetic buttons & card tilt interactions
+│   ├── site-config.js             # Decoupled API base URL configuration
+│   └── premium-interactions.js    # Micro-interactions & ripple effects
+├── backend/                       # Node.js + Express + MongoDB REST API
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── server.js
+│   └── package.json
+├── index.html                     # Homepage (Hero, About, Events, Gallery, Blog)
+├── events.html                    # Events page with calendar exporters
+├── team.html                      # Executive committee & team members
+├── gallery.html                   # Photo & event highlights gallery
+├── blog.html                      # Technical blog & articles
+├── blog-post.html                 # Single article view
+├── admin.html                     # CMS Portal & Management Dashboard
+├── vercel.json                    # Vercel frontend routing & CDN config
+└── render.yaml                    # Render.com deployment manifest
 ```
 
 ---
 
-## Features
+## 💻 Local Setup & Development
 
-### UI & Design
-- Dark / Light mode toggle
-- Glassmorphic floating navbar with scroll hide/show
-- Custom animated cursor with glow trail
-- Scroll progress bar
-- Premium loading screen (preloader)
-- Command palette (`Ctrl+K` / `⌘K`)
-- Toast notifications
-- Back to top button
+### Running Frontend Locally
+```bash
+# Serve with python
+python -m http.server 3000
 
-### Animations & Interactions
-- Scroll-triggered reveal animations
-- Staggered card entrance animations
-- Mouse parallax & scroll parallax
-- Magnetic buttons with spring physics
-- 3D card tilt effect
-- Hover lighting (mouse-position radial glow)
-- Animated number counters (count-up on scroll)
-- Live countdown timers
-- Canvas particle system (hero background)
-- Aurora blob background animations
+# Or with Node npx
+npx serve .
+```
+Open `http://localhost:3000` in your browser.
 
-### Sections (Home)
-- Hero with particle canvas
-- Stats bar with animated counters
-- Marquee ticker
-- Events preview with countdown
-- Achievements grid
-- Research & Innovation with animated SVG
-- IEEE Chapters grid
-- Timeline
-- Gallery teaser
-- Blog preview
-- Newsletter signup
-- Footer
-
-### Other Pages
-- **Events** — card/list view toggle, category filters, featured event countdown
-- **Team** — leadership cards with animated border ring, member grid with chapter filter
-- **Gallery** — masonry layout, lightbox with keyboard navigation, category filter
-- **Blog** — search, category filter, sticky sidebar, trending posts
-- **Blog Post** — reading progress bar, table of contents, related articles
-- **Admin** — full dashboard with charts, member/event/blog/gallery management
+### Running Backend Locally
+```bash
+cd backend
+cp .env.example .env
+npm install
+npm run seed     # Create initial admin account
+npm run dev      # Runs API server on http://localhost:5000
+```
 
 ---
 
-## Tech Stack
+## 📜 License & Accreditation
 
-| Technology | Usage |
-|------------|-------|
-| HTML5 | Semantic markup, accessibility |
-| CSS3 | Custom properties, Grid, Flexbox, animations |
-| Vanilla JavaScript | All interactivity, no frameworks |
-| Canvas API | Particle system, analytics chart |
-| Intersection Observer | Scroll reveals, lazy loading |
-| Google Fonts | Inter + JetBrains Mono |
-
----
-
-## Design System
-
-- **Primary Font** — Inter
-- **Mono Font** — JetBrains Mono
-- **Accent Colors** — Indigo `#6366f1` · Violet `#8b5cf6` · Cyan `#06b6d4` · Pink `#ec4899` · Emerald `#10b981`
-- **Background** — `#020205` (dark) / `#fafafa` (light)
-- **Border Radius** — 6px → 48px scale
-- **Transitions** — Spring & cubic-bezier easing throughout
-
----
-
-## Deployment
-
-This project is configured for **Render.com** via `render.yaml`.
-
-To deploy the frontend on any static host (Vercel, Netlify, GitHub Pages):
-1. Push this repo to GitHub
-2. Connect the repo to your hosting platform
-3. Set publish directory to `/` (root)
-4. No build step required
-
-To run the CMS backend:
-1. Go to `backend/`
-2. Copy `.env.example` to `.env`
-3. Add MongoDB Atlas, JWT, Cloudinary, SMTP, and CORS values
-4. Run `npm install`
-5. Run `npm run seed` to create the first admin
-6. Run `npm run dev`
-
-The admin page uses `http://localhost:5000/api/v1` locally and lets you change the API URL on the login screen.
-
----
-
-## License
-
-© 2025 IEEE Student Branch. All rights reserved.
+© 2025 **MMIT IEEE Student Branch** (`STB60226400`).  
+All rights reserved. Advancing Technology for Humanity.
