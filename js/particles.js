@@ -320,8 +320,12 @@ class IEEEDigitalNetwork {
 }
 
 // Backward compatibility aliases
-class ParticleSystem extends IEEEDigitalNetwork {}
+class ParticleSystem extends IEEEDigitalNetwork {
+  constructor(canvasId, options = {}) {
+    super(canvasId, options);
+  }
+}
 
 window.IEEEDigitalNetwork = IEEEDigitalNetwork;
-window.ParticleSystem = IEEEDigitalNetwork;
+window.ParticleSystem = ParticleSystem;
 
