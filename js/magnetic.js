@@ -91,14 +91,15 @@ class CardTilt {
     const tiltX = -dy * this.maxTilt;
     const tiltY = dx * this.maxTilt;
 
-    this.el.style.transition = 'transform 0.1s ease, box-shadow 0.1s ease';
-    this.el.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+    this.el.style.transition = 'transform 0.1s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease';
+    this.el.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateZ(12px) scale3d(1.025, 1.025, 1.025)`;
+    this.el.style.boxShadow = `0 20px 40px -15px rgba(0,0,0,0.5), ${-tiltY * 2}px ${tiltX * 2}px 30px rgba(99, 102, 241, 0.2)`;
 
     if (this.glareEl) {
       const glareX = ((e.clientX - rect.left) / rect.width) * 100;
       const glareY = ((e.clientY - rect.top) / rect.height) * 100;
-      this.glareEl.style.background = `radial-gradient(ellipse at ${glareX}% ${glareY}%, rgba(255,255,255,0.12) 0%, transparent 60%)`;
       this.glareEl.style.opacity = '1';
+      this.glareEl.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.18) 0%, rgba(99,102,241,0.08) 35%, transparent 70%)`;
     }
   }
 

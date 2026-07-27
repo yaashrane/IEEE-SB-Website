@@ -56,6 +56,12 @@ const MouseLighting = {
 
     this.light = document.createElement('div');
     this.light.className = 'mouse-light';
+    this.light.style.cssText = `
+      position: fixed; top: 0; left: 0; width: 450px; height: 450px;
+      background: radial-gradient(circle, rgba(99,102,241,0.18) 0%, rgba(6,182,212,0.08) 45%, transparent 70%);
+      border-radius: 50%; pointer-events: none; z-index: 1;
+      mix-blend-mode: screen; will-change: transform; transition: opacity 0.4s ease;
+    `;
     document.body.appendChild(this.light);
 
     document.addEventListener('mousemove', (e) => {
@@ -71,9 +77,8 @@ const MouseLighting = {
   },
 
   animateLight() {
-    // Smooth interpolation for GPU-accelerated movement
-    this.currentX += (this.mouseX - this.currentX) * 0.06;
-    this.currentY += (this.mouseY - this.currentY) * 0.06;
+    this.currentX += (this.mouseX - this.currentX) * 0.08;
+    this.currentY += (this.mouseY - this.currentY) * 0.08;
     if (this.light) {
       this.light.style.transform = `translate(calc(${this.currentX}px - 50%), calc(${this.currentY}px - 50%))`;
     }

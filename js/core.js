@@ -106,22 +106,24 @@ const Cursor = {
     });
   },
   animate() {
-    this.rx += (this.mx - this.rx) * 0.12;
-    this.ry += (this.my - this.ry) * 0.12;
+    // Fast, responsive lerp (0.38) so ring & glow track cursor in tight sync
+    this.rx += (this.mx - this.rx) * 0.38;
+    this.ry += (this.my - this.ry) * 0.38;
+    
     if (this.ring) {
       this.ring.style.left = this.rx + 'px';
       this.ring.style.top = this.ry + 'px';
     }
     if (this.glow) {
-      this.glow.style.left = this.mx + 'px';
-      this.glow.style.top = this.my + 'px';
+      this.glow.style.left = this.rx + 'px';
+      this.glow.style.top = this.ry + 'px';
     }
-    // Trail interpolation
-    let px = this.mx, py = this.my;
+    // Trail interpolation locked to smoothed coordinates
+    let px = this.rx, py = this.ry;
     this.trail.forEach((t, i) => {
-      const lag = 0.18 - i * 0.015;
-      t.x += (px - t.x) * lag;
-      t.y += (py - t.y) * lag;
+      const lag = 0.35 - i * 0.02;
+      t.x += (px - t.x) * Math.max(0.1, lag);
+      t.y += (py - t.y) * Math.max(0.1, lag);
       t.el.style.left = t.x + 'px';
       t.el.style.top = t.y + 'px';
       px = t.x; py = t.y;

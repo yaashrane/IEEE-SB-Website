@@ -253,6 +253,8 @@ h1, h2, h3, h4, h5, h6 { font-weight: var(--fw-bold); line-height: 1.15; }
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  display: inline-block;
+  padding-right: 0.06em;
 }
 
 .text-gradient-aurora {
@@ -260,6 +262,8 @@ h1, h2, h3, h4, h5, h6 { font-weight: var(--fw-bold); line-height: 1.15; }
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  display: inline-block;
+  padding-right: 0.06em;
 }
 
 .font-mono { font-family: var(--font-mono); }
