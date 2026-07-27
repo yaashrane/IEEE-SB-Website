@@ -762,7 +762,174 @@ footer {
   will-change: transform, box-shadow;
 }
 
+/* ─── CURSOR TRAIL ───────────────────────────────────────────– */
+.cursor-trail {
+  position: fixed;
+  border-radius: 50%;
+  background: var(--accent-indigo);
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  transform: translate(-50%, -50%);
+  will-change: left, top;
+  transition: width 0.2s ease, height 0.2s ease;
+}
+
+/* Click ripple */
+.cursor-click-ripple {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid rgba(99,102,241,0.7);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  animation: clickRippleOut 0.55s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+/* ─── CARD SPOTLIGHT ─────────────────────────────────────────– */
+.card-spotlight {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+/* ─── COUNTER DONE GLOW ──────────────────────────────────────– */
+.counter-done {
+  animation: counterGlow 1.1s ease forwards;
+}
+
+/* ─── ENHANCED SECTION GLOW ──────────────────────────────────– */
+.section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.2), transparent);
+  pointer-events: none;
+}
+
+/* ─── FOOTER AMBIENT GLOW ────────────────────────────────────– */
+footer::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  width: 700px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(99,102,241,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: footerGlow 8s ease-in-out infinite;
+}
+
+/* ─── ENHANCED HOVER STATES ──────────────────────────────────– */
+.event-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 40px rgba(99,102,241,0.12);
+  border-color: rgba(99,102,241,0.3);
+}
+
+.blog-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(99,102,241,0.1);
+  border-color: rgba(99,102,241,0.25);
+}
+
+/* ─── STAT ITEM PULSE ────────────────────────────────────────– */
+.stat-item__value .counter-done {
+  animation: statPulseGlow 1s ease forwards;
+}
+
+/* ─── ENHANCED NAV LINK UNDERLINE ────────────────────────────– */
+/* Override: use width transition (matches components.css) */
+
+/* ─── MOBILE MENU ANIMATION ──────────────────────────────────– */
+.nav__mobile-menu {
+  display: flex !important;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1),
+              opacity 0.35s ease,
+              transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: none;
+}
+.nav__mobile-menu.open {
+  max-height: 400px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ─── SCROLL PROGRESS GLOW ───────────────────────────────────– */
+#scroll-progress {
+  box-shadow: 0 0 12px rgba(99,102,241,0.7), 0 0 4px rgba(139,92,246,0.5);
+}
+
+/* ─── BACK TO TOP ENHANCED ───────────────────────────────────– */
+#back-to-top {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+#back-to-top:hover {
+  box-shadow: 0 0 30px rgba(99,102,241,0.5), var(--shadow-glow);
+  transform: translateY(-4px) scale(1.05);
+}
+
+/* ─── NEWSLETTER CARD GLOW ───────────────────────────────────– */
+.newsletter__card {
+  transition: box-shadow 0.4s ease;
+}
+.newsletter__card:hover {
+  box-shadow: 0 0 80px rgba(99,102,241,0.15), 0 30px 60px rgba(0,0,0,0.3);
+}
+
+/* ─── TIMELINE DOT GLOW ──────────────────────────────────────– */
+.timeline-item:hover .timeline-item__dot {
+  box-shadow: 0 0 0 4px rgba(99,102,241,0.2), 0 0 20px rgba(99,102,241,0.5);
+}
+
+/* ─── GALLERY TEASER HOVER ───────────────────────────────────– */
+.gallery-teaser__item {
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1),
+              box-shadow 0.5s ease;
+}
+.gallery-teaser__item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  z-index: 2;
+}
+
+/* ─── CHAPTER CARD BORDER GLOW ───────────────────────────────– */
+.chapter-card {
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1),
+              box-shadow 0.4s ease,
+              border-color 0.4s ease;
+}
+
+/* ─── ACHIEVEMENT CARD ICON FLOAT ────────────────────────────– */
+.achievement-card:hover .achievement-card__icon {
+  animation: float 2s ease-in-out infinite;
+}
+
+/* ─── PRELOADER ENHANCED ─────────────────────────────────────– */
+#preloader {
+  background: radial-gradient(ellipse at 50% 40%, rgba(99,102,241,0.08) 0%, var(--bg-primary) 60%);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .cursor-trail,
+  .cursor-click-ripple,
   .premium-card,
   .event-card,
   .team-card,
@@ -770,5 +937,12 @@ footer {
   .footer__link {
     transition: none;
     animation: none;
+  }
+  .reveal, .reveal-left, .reveal-right, .reveal-scale,
+  .reveal-blur, .reveal-mask, .reveal-rotate {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
   }
 }

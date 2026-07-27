@@ -27,10 +27,16 @@ class ParticleSystem {
       twinkle: options.twinkle ?? true,
       ...options
     };
+    this.isVisible = true;
     this.resize();
     this.initParticles();
     this.bindEvents();
+    this.setupObserver();
     this.animate();
+  }
+
+  setupObserver() {
+    this.isVisible = true;
   }
 
   resize() {
@@ -155,9 +161,11 @@ class ParticleSystem {
       this.ctx.fillStyle = gradient;
       this.ctx.fill();
     });
-  }
-
   animate() {
+    if (!this.isVisible) {
+      this.animId = null;
+      return;
+    }
     this.update();
     this.draw();
     this.animId = requestAnimationFrame(() => this.animate());
@@ -165,6 +173,7 @@ class ParticleSystem {
 
   destroy() {
     if (this.animId) cancelAnimationFrame(this.animId);
+    if (this.observer) this.observer.disconnect();
   }
 }
 

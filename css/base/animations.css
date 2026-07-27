@@ -385,6 +385,54 @@
 .duration-1000 { animation-duration: 1s; }
 .duration-2000 { animation-duration: 2s; }
 
+/* ─── NEW REVEAL VARIANTS ───────────────────────────────────── */
+@keyframes blurReveal {
+  from { opacity: 0; filter: blur(16px); transform: translateY(20px); }
+  to   { opacity: 1; filter: blur(0);    transform: translateY(0); }
+}
+
+@keyframes maskReveal {
+  from { clip-path: inset(0 100% 0 0); opacity: 0; }
+  to   { clip-path: inset(0 0%   0 0); opacity: 1; }
+}
+
+@keyframes rotateReveal {
+  from { opacity: 0; transform: rotateX(25deg) translateY(30px); }
+  to   { opacity: 1; transform: rotateX(0)     translateY(0); }
+}
+
+@keyframes counterGlow {
+  0%   { text-shadow: 0 0 0px rgba(99,102,241,0); }
+  40%  { text-shadow: 0 0 30px rgba(99,102,241,0.8), 0 0 60px rgba(139,92,246,0.4); }
+  100% { text-shadow: 0 0 0px rgba(99,102,241,0); }
+}
+
+@keyframes cursorTrailFade {
+  from { opacity: 0.5; transform: translate(-50%,-50%) scale(1); }
+  to   { opacity: 0;   transform: translate(-50%,-50%) scale(0.3); }
+}
+
+@keyframes clickRippleOut {
+  0%   { transform: translate(-50%,-50%) scale(0); opacity: 0.6; }
+  100% { transform: translate(-50%,-50%) scale(3); opacity: 0; }
+}
+
+@keyframes navUnderlineSlide {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
+
+@keyframes footerGlow {
+  0%, 100% { opacity: 0.15; transform: translateX(-50%) scale(0.9); }
+  50%       { opacity: 0.3;  transform: translateX(-50%) scale(1.1); }
+}
+
+@keyframes statPulseGlow {
+  0%   { filter: drop-shadow(0 0 0px rgba(99,102,241,0)); }
+  50%  { filter: drop-shadow(0 0 20px rgba(99,102,241,0.7)); }
+  100% { filter: drop-shadow(0 0 0px rgba(99,102,241,0)); }
+}
+
 /* ─── SKELETON LOADING ───────────────────────────────────────── */
 .skeleton {
   background: linear-gradient(

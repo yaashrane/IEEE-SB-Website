@@ -143,11 +143,21 @@ IEEE-SB-Website/
 
 This project is configured for **Render.com** via `render.yaml`.
 
-To deploy on any static host (Netlify, Vercel, GitHub Pages):
+To deploy the frontend on any static host (Vercel, Netlify, GitHub Pages):
 1. Push this repo to GitHub
 2. Connect the repo to your hosting platform
 3. Set publish directory to `/` (root)
 4. No build step required
+
+To run the CMS backend:
+1. Go to `backend/`
+2. Copy `.env.example` to `.env`
+3. Add MongoDB Atlas, JWT, Cloudinary, SMTP, and CORS values
+4. Run `npm install`
+5. Run `npm run seed` to create the first admin
+6. Run `npm run dev`
+
+The admin page uses `http://localhost:5000/api/v1` locally and lets you change the API URL on the login screen.
 
 ---
 

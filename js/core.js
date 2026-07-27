@@ -57,16 +57,26 @@ const Cursor = {
   dot: null,
   ring: null,
   glow: null,
+  trail: [],
+  trailMax: 8,
   mx: 0, my: 0,
   rx: 0, ry: 0,
-  rafId: null,
   init() {
-    // Skip on touch/mobile
     if (window.matchMedia('(max-width: 480px)').matches || 'ontouchstart' in window) return;
     this.dot = document.getElementById('cursor-dot');
     this.ring = document.getElementById('cursor-ring');
     this.glow = document.getElementById('cursor-glow');
     if (!this.dot) return;
+
+    // Create trail elements
+    for (let i = 0; i < this.trailMax; i++) {
+      const t = document.createElement('div');
+      t.className = 'cursor-trail';
+      t.style.cssText = `opacity:${(1 - i / this.trailMax) * 0.35};width:${6 - i * 0.5}px;height:${6 - i * 0.5}px`;
+      document.body.appendChild(t);
+      this.trail.push({ el: t, x: 0, y: 0 });
+    }
+
     document.addEventListener('mousemove', (e) => {
       this.mx = e.clientX;
       this.my = e.clientY;
@@ -76,6 +86,9 @@ const Cursor = {
       }
     });
     this.animate();
+
+    // Click ripple
+    document.addEventListener('click', (e) => this.spawnRipple(e.clientX, e.clientY));
 
     // Cursor states
     document.querySelectorAll('a, button, [role="button"], label, .cursor-pointer').forEach(el => {
@@ -103,15 +116,36 @@ const Cursor = {
       this.glow.style.left = this.mx + 'px';
       this.glow.style.top = this.my + 'px';
     }
+    // Trail interpolation
+    let px = this.mx, py = this.my;
+    this.trail.forEach((t, i) => {
+      const lag = 0.18 - i * 0.015;
+      t.x += (px - t.x) * lag;
+      t.y += (py - t.y) * lag;
+      t.el.style.left = t.x + 'px';
+      t.el.style.top = t.y + 'px';
+      px = t.x; py = t.y;
+    });
     requestAnimationFrame(() => this.animate());
   },
   setHover(on) {
     if (this.dot) {
-      this.dot.style.transform = on
-        ? 'translate(-50%, -50%) scale(2)'
-        : 'translate(-50%, -50%) scale(1)';
-      this.dot.style.opacity = on ? '0.4' : '1';
+      this.dot.style.transform = on ? 'translate(-50%,-50%) scale(2.5)' : 'translate(-50%,-50%) scale(1)';
+      this.dot.style.opacity = on ? '0.3' : '1';
     }
+    if (this.ring) {
+      this.ring.style.width = on ? '60px' : '36px';
+      this.ring.style.height = on ? '60px' : '36px';
+      this.ring.style.borderColor = on ? 'rgba(99,102,241,1)' : 'rgba(99,102,241,0.6)';
+    }
+  },
+  spawnRipple(x, y) {
+    const r = document.createElement('div');
+    r.className = 'cursor-click-ripple';
+    r.style.left = x + 'px';
+    r.style.top = y + 'px';
+    document.body.appendChild(r);
+    setTimeout(() => r.remove(), 600);
   }
 };
 

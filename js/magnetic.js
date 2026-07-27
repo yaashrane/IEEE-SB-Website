@@ -123,10 +123,10 @@ function initHoverLighting() {
 
     const light = document.createElement('div');
     light.style.cssText = `
-      position: absolute; width: 200px; height: 200px;
-      background: radial-gradient(ellipse, rgba(255,255,255,0.08) 0%, transparent 60%);
-      border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%);
-      opacity: 0; transition: opacity 0.3s ease; z-index: 0;
+      position:absolute;width:280px;height:280px;
+      background:radial-gradient(ellipse,rgba(255,255,255,0.09) 0%,transparent 65%);
+      border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);
+      opacity:0;transition:opacity 0.3s ease;z-index:0;will-change:transform;
     `;
     el.appendChild(light);
 
@@ -137,6 +137,25 @@ function initHoverLighting() {
       light.style.top = (e.clientY - rect.top) + 'px';
     });
     el.addEventListener('mouseleave', () => { light.style.opacity = '0'; });
+  });
+}
+
+// ─── CARD SPOTLIGHT ───────────────────────────────────────────
+function initCardSpotlight() {
+  document.querySelectorAll('.chapter-card, .achievement-card, .blog-card, .event-card').forEach(card => {
+    card.style.position = card.style.position || 'relative';
+    const spot = document.createElement('div');
+    spot.className = 'card-spotlight';
+    card.appendChild(spot);
+
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      spot.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(99,102,241,0.12) 0%, transparent 60%)`;
+      spot.style.opacity = '1';
+    });
+    card.addEventListener('mouseleave', () => { spot.style.opacity = '0'; });
   });
 }
 
@@ -155,6 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMagnetic();
   initCardTilt();
   initHoverLighting();
+  initCardSpotlight();
 });
 
 window.MagneticButton = MagneticButton;

@@ -50,6 +50,9 @@ class AnimatedCounter {
       requestAnimationFrame((ts) => this.animate(ts));
     } else {
       this.el.textContent = this.format(this.target);
+      // Glow pulse on completion
+      this.el.classList.add('counter-done');
+      setTimeout(() => this.el.classList.remove('counter-done'), 1200);
     }
   }
 

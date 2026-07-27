@@ -187,6 +187,11 @@
   animation: float 2s ease-in-out infinite;
 }
 
+/* Cinematic hero parallax fade on scroll */
+.hero {
+  will-change: opacity;
+}
+
 /* ─── STATS BAR ──────────────────────────────────────────────── */
 .stats-bar {
   padding: var(--space-16) 0;
@@ -217,6 +222,12 @@
   text-align: center;
   position: relative;
   border-right: 1px solid var(--border-subtle);
+  transition: background 0.4s ease;
+}
+
+.stat-item:hover {
+  background: rgba(99,102,241,0.03);
+  border-radius: var(--radius-xl);
 }
 
 .stat-item:last-child { border-right: none; }
@@ -294,9 +305,9 @@
 }
 
 .event-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-xl);
-  border-color: rgba(99,102,241,0.25);
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 40px rgba(99,102,241,0.12);
+  border-color: rgba(99,102,241,0.3);
 }
 
 .event-card__image {
@@ -693,6 +704,13 @@
   overflow: hidden;
   position: relative;
   cursor: none;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease;
+}
+
+.gallery-teaser__item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  z-index: 2;
 }
 
 .gallery-teaser__item:first-child {
@@ -755,9 +773,9 @@
 }
 
 .blog-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--border-default);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(99,102,241,0.1);
+  border-color: rgba(99,102,241,0.25);
 }
 
 .blog-card__image-wrap {
@@ -879,6 +897,7 @@ footer {
   border-top: 1px solid var(--border-subtle);
   position: relative;
   overflow: hidden;
+  background: linear-gradient(to bottom, var(--bg-primary), var(--bg-secondary));
 }
 
 .footer__grid {
@@ -946,7 +965,25 @@ footer {
   transition: color var(--transition-fast);
 }
 
-.footer__link:hover { color: var(--text-primary); }
+.footer__link {
+  position: relative;
+  display: inline-block;
+}
+
+.footer__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 1px;
+  background: var(--grad-primary);
+  transition: width 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+
+.footer__link:hover { color: var(--text-primary); transform: translateX(3px); transition: color 0.2s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1); }
+
+.footer__link:hover::after { width: 100%; }
 
 .footer__bottom {
   padding-top: var(--space-8);

@@ -138,20 +138,23 @@ body:has(button:hover) #cursor-ring {
 }
 
 .nav.scrolled {
-  background: rgba(2, 2, 5, 0.8);
+  background: rgba(2, 2, 5, 0.92);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: var(--space-4) 0;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  
-  /* Floating effect */
-  margin-top: 8px;
-  margin-left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 2rem);
-  border-radius: 16px;
-  max-width: 1300px;
+}
+
+@media (min-width: 769px) {
+  .nav.scrolled {
+    margin-top: 8px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 2rem);
+    border-radius: 16px;
+    max-width: 1300px;
+  }
 }
 
 .nav.scrolled .container {
@@ -164,8 +167,10 @@ body:has(button:hover) #cursor-ring {
   transform: translateY(-120px);
 }
 
-.nav.hide.scrolled {
-  transform: translateX(-50%) translateY(-120px);
+@media (min-width: 769px) {
+  .nav.hide.scrolled {
+    transform: translateX(-50%) translateY(-120px);
+  }
 }
 
 .nav__inner {
@@ -189,15 +194,16 @@ body:has(button:hover) #cursor-ring {
 .nav__logo:hover { opacity: 0.8; }
 
 .nav__logo-mark {
-  width: 36px;
+  padding: 0 8px;
   height: 36px;
   background: var(--grad-primary);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: var(--fw-black);
+  letter-spacing: 0.05em;
   color: white;
   flex-shrink: 0;
   box-shadow: 0 0 20px rgba(99,102,241,0.4);
@@ -320,7 +326,6 @@ body:has(button:hover) #cursor-ring {
 .nav__hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 .nav__mobile-menu {
-  display: none;
   position: absolute;
   top: 100%;
   left: 0;
@@ -328,12 +333,11 @@ body:has(button:hover) #cursor-ring {
   background: rgba(2, 2, 5, 0.97);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-subtle);
-  padding: var(--space-4) 0 var(--space-6);
+  padding: 0 0 var(--space-6);
   flex-direction: column;
   gap: var(--space-1);
 }
 
-.nav__mobile-menu.open { display: flex; }
 .nav__mobile-menu .nav__link { padding: var(--space-3) var(--space-6); }
 
 @media (max-width: 768px) {

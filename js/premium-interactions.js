@@ -47,10 +47,11 @@ const MouseLighting = {
   light: null,
   mouseX: 0,
   mouseY: 0,
+  currentX: 0,
+  currentY: 0,
   ticking: false,
 
   init() {
-    // Don't initialize on mobile
     if (window.matchMedia('(max-width: 768px)').matches) return;
 
     this.light = document.createElement('div');
@@ -61,28 +62,22 @@ const MouseLighting = {
       this.mouseX = e.clientX;
       this.mouseY = e.clientY;
       document.body.classList.add('mouse-active');
-
-      if (!this.ticking) {
-        requestAnimationFrame(() => {
-          this.updateLight();
-          this.ticking = false;
-        });
-        this.ticking = true;
-      }
     }, { passive: true });
 
-    document.addEventListener('mouseleave', () => {
-      document.body.classList.remove('mouse-active');
-    });
+    document.addEventListener('mouseleave', () => document.body.classList.remove('mouse-active'));
+    document.addEventListener('mouseenter', () => document.body.classList.add('mouse-active'));
 
-    document.addEventListener('mouseenter', () => {
-      document.body.classList.add('mouse-active');
-    });
+    this.animateLight();
   },
 
-  updateLight() {
-    if (!this.light) return;
-    this.light.style.transform = `translate(calc(${this.mouseX}px - 50%), calc(${this.mouseY}px - 50%))`;
+  animateLight() {
+    // Smooth interpolation for GPU-accelerated movement
+    this.currentX += (this.mouseX - this.currentX) * 0.06;
+    this.currentY += (this.mouseY - this.currentY) * 0.06;
+    if (this.light) {
+      this.light.style.transform = `translate(calc(${this.currentX}px - 50%), calc(${this.currentY}px - 50%))`;
+    }
+    requestAnimationFrame(() => this.animateLight());
   }
 };
 
@@ -219,23 +214,23 @@ const SectionAnimations = {
 // ─── ENHANCED CARD INTERACTIONS ──────────────────────────────
 const PremiumCards = {
   init() {
+    // Dynamic shadow on hover
     const cards = document.querySelectorAll('.premium-card, .event-card, .team-card, .gallery-item');
-    
     cards.forEach(card => {
-      // Tilt effect with mouse tracking
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
         const tiltX = (y - rect.height / 2) / rect.height * 5;
         const tiltY = (x - rect.width / 2) / rect.width * -5;
-        
+        const shadowX = (x / rect.width - 0.5) * 20;
+        const shadowY = (y / rect.height - 0.5) * 20;
         card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        card.style.boxShadow = `${shadowX}px ${shadowY + 20}px 60px rgba(0,0,0,0.4), 0 0 40px rgba(99,102,241,0.1)`;
       });
-
       card.addEventListener('mouseleave', () => {
         card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        card.style.boxShadow = '';
       });
     });
   }

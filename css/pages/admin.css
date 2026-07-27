@@ -507,3 +507,209 @@
 .donut-legend { display: flex; flex-direction: column; gap: var(--space-3); }
 .donut-legend-item { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); }
 .donut-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* Live CMS integration */
+.admin-auth {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+  background: rgba(3, 7, 18, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.admin-auth[hidden] {
+  display: none;
+}
+
+@keyframes cmsModalPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.admin-auth__card {
+  width: min(440px, 100%);
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px rgba(99, 102, 241, 0.15);
+  animation: cmsModalPop 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.admin-auth__card .input:focus {
+  border-color: var(--accent-indigo);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+.admin-auth__brand {
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-auth__brand::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 8px var(--accent-cyan);
+}
+
+.admin-auth__card h1 {
+  margin: 0;
+  font-size: var(--text-3xl);
+}
+
+.admin-auth__card p,
+.admin-auth__status {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+.cms-panel {
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.cms-panel__title {
+  font-size: var(--text-base);
+  font-weight: var(--fw-semibold);
+  margin-bottom: var(--space-4);
+}
+
+.cms-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.cms-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1100px) {
+  .cms-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .cms-grid--4 { grid-template-columns: 1fr; }
+}
+
+.cms-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.cms-check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 42px;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+}
+
+.cms-status {
+  margin-bottom: var(--space-4);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.cms-gallery-item {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--surface-1);
+}
+
+.cms-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cms-gallery-item__actions {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: flex;
+  gap: var(--space-1);
+}
+
+.cms-gallery-item__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--space-3);
+  background: linear-gradient(to top, rgba(0,0,0,0.72), transparent);
+  color: white;
+  font-size: var(--text-xs);
+}
+
+.cms-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.cms-list__item {
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-5);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.cms-list__title {
+  font-weight: var(--fw-semibold);
+  margin-bottom: var(--space-2);
+}
+
+.cms-list__meta {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+/* Explicit Select Input & Option Contrast */
+select.input {
+  color: #f8fafc !important;
+  background-color: #0f172a !important;
+  cursor: pointer;
+}
+
+select.input option {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  padding: 8px 12px;
+}
