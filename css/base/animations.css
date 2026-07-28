@@ -467,6 +467,7 @@
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 30%, #ec4899 60%, #06b6d4 100%);
   background-size: 300% 300%;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
   padding-right: 0.06em;
