@@ -110,7 +110,7 @@ const Cursor = {
     // Fast, responsive lerp (0.38) so ring & glow track cursor in tight sync
     this.rx += (this.mx - this.rx) * 0.38;
     this.ry += (this.my - this.ry) * 0.38;
-    
+
     if (this.ring) {
       this.ring.style.left = this.rx + 'px';
       this.ring.style.top = this.ry + 'px';
@@ -343,15 +343,15 @@ const CommandPalette = {
 // ─── RIPPLE EFFECT ─────────────────────────────────────────────
 function initRipple() {
   document.querySelectorAll('.btn').forEach(btn => {
-    btn.addEventListener('click', function(e) {
+    btn.addEventListener('click', function (e) {
       const rect = this.getBoundingClientRect();
       const ripple = document.createElement('span');
       ripple.className = 'ripple';
       const size = Math.max(rect.width, rect.height) * 2;
       ripple.style.cssText = `
         width: ${size}px; height: ${size}px;
-        left: ${e.clientX - rect.left - size/2}px;
-        top: ${e.clientY - rect.top - size/2}px;
+        left: ${e.clientX - rect.left - size / 2}px;
+        top: ${e.clientY - rect.top - size / 2}px;
       `;
       this.appendChild(ripple);
       setTimeout(() => ripple.remove(), 600);
@@ -360,7 +360,7 @@ function initRipple() {
 }
 
 // ─── TOAST ────────────────────────────────────────────────────
-window.showToast = function(message, type = 'info') {
+window.showToast = function (message, type = 'info') {
   const container = document.getElementById('toast-container');
   if (!container) return;
   const icons = { info: 'ℹ️', success: '✅', error: '❌' };

@@ -74,6 +74,7 @@
   overflow: hidden;
   transition: all var(--transition-base);
   will-change: transform;
+  transform-style: preserve-3d;
 }
 
 .event-card__image {

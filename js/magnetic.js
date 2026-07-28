@@ -54,25 +54,26 @@ class MagneticButton {
   }
 }
 
-// ─── CARD TILT ────────────────────────────────────────────────
+// ─── CARD TILT (3D SPATIAL & MAGNETIC SNAP ENGINE) ───────────
 class CardTilt {
   constructor(el) {
     this.el = el;
-    this.maxTilt = parseFloat(el.dataset.tilt ?? 8);
-    this.glare = el.dataset.tiltGlare !== undefined;
-    this.glareEl = null;
+    this.maxTilt = parseFloat(el.dataset.tilt ?? 12);
+    this.perspective = parseFloat(el.dataset.perspective ?? 1000);
+    this.innerElements = el.querySelectorAll('.event-card__image, .event-card__title, .achievement-card__icon, .chapter-card__icon, .badge');
 
-    if (this.glare) {
-      this.glareEl = document.createElement('div');
-      this.glareEl.style.cssText = `
-        position: absolute; inset: 0; border-radius: inherit;
-        background: radial-gradient(ellipse at 0% 0%, rgba(255,255,255,0.15) 0%, transparent 60%);
-        pointer-events: none; opacity: 0; transition: opacity 0.3s ease;
-        z-index: 1;
-      `;
-      this.el.style.position = this.el.style.position || 'relative';
-      this.el.appendChild(this.glareEl);
-    }
+    // Create 3D Specular Glare Overlay
+    this.glareEl = document.createElement('div');
+    this.glareEl.className = 'tilt-glare-overlay';
+    this.glareEl.style.cssText = `
+      position: absolute; inset: 0; border-radius: inherit;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.22) 0%, rgba(99,102,241,0.12) 40%, transparent 75%);
+      pointer-events: none; opacity: 0; transition: opacity 0.3s ease, background 0.1s ease;
+      z-index: 10; mix-blend-mode: overlay;
+    `;
+    this.el.style.position = this.el.style.position || 'relative';
+    this.el.style.transformStyle = 'preserve-3d';
+    this.el.appendChild(this.glareEl);
 
     this.bound = {
       move: this.onMove.bind(this),
@@ -88,25 +89,40 @@ class CardTilt {
     const cy = rect.top + rect.height / 2;
     const dx = (e.clientX - cx) / (rect.width / 2);
     const dy = (e.clientY - cy) / (rect.height / 2);
+    
+    // Calculate 3D Spatial Angles
     const tiltX = -dy * this.maxTilt;
     const tiltY = dx * this.maxTilt;
 
-    this.el.style.transition = 'transform 0.1s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease';
-    this.el.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateZ(12px) scale3d(1.025, 1.025, 1.025)`;
-    this.el.style.boxShadow = `0 20px 40px -15px rgba(0,0,0,0.5), ${-tiltY * 2}px ${tiltX * 2}px 30px rgba(99, 102, 241, 0.2)`;
+    // Apply 3D Perspective Transformation & Magnetic Lift
+    this.el.style.transition = 'transform 0.12s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease';
+    this.el.style.transform = `perspective(${this.perspective}px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateZ(16px) scale3d(1.03, 1.03, 1.03)`;
+    this.el.style.boxShadow = `0 25px 50px -12px rgba(0, 0, 0, 0.6), ${-tiltY * 3}px ${tiltX * 3}px 35px rgba(99, 102, 241, 0.35)`;
 
-    if (this.glareEl) {
-      const glareX = ((e.clientX - rect.left) / rect.width) * 100;
-      const glareY = ((e.clientY - rect.top) / rect.height) * 100;
-      this.glareEl.style.opacity = '1';
-      this.glareEl.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.18) 0%, rgba(99,102,241,0.08) 35%, transparent 70%)`;
-    }
+    // 3D Layer Elevation (Depth Lift for Child Elements)
+    this.innerElements.forEach(item => {
+      item.style.transition = 'transform 0.12s cubic-bezier(0.16, 1, 0.3, 1)';
+      item.style.transform = `translateZ(25px)`;
+    });
+
+    // Dynamic Specular Reflection Light Tracker
+    const glareX = ((e.clientX - rect.left) / rect.width) * 100;
+    const glareY = ((e.clientY - rect.top) / rect.height) * 100;
+    this.glareEl.style.opacity = '1';
+    this.glareEl.style.background = `radial-gradient(circle at ${glareX.toFixed(1)}% ${glareY.toFixed(1)}%, rgba(255,255,255,0.28) 0%, rgba(6,182,212,0.15) 35%, transparent 70%)`;
   }
 
   onLeave() {
-    this.el.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s ease';
-    this.el.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-    if (this.glareEl) this.glareEl.style.opacity = '0';
+    this.el.style.transition = 'transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.65s ease';
+    this.el.style.transform = `perspective(${this.perspective}px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)`;
+    this.el.style.boxShadow = '';
+    
+    this.innerElements.forEach(item => {
+      item.style.transition = 'transform 0.65s ease';
+      item.style.transform = 'translateZ(0px)';
+    });
+
+    this.glareEl.style.opacity = '0';
   }
 
   destroy() {
