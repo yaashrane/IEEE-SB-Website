@@ -1127,19 +1127,25 @@
   <script src="js/counters.js" defer></script>
   <script src="js/premium-interactions.js" defer></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Continuous full-page IEEE Digital Neural Network
-      new IEEEDigitalNetwork('global-bg-canvas', {
-        maxConnectDist: 150,
-        mouseRadius: 200
-      });
+    function bootNetworks() {
+      if (typeof IEEEDigitalNetwork === 'function') {
+        new IEEEDigitalNetwork('global-bg-canvas', {
+          maxConnectDist: 150,
+          mouseRadius: 200
+        });
 
-      // Hero section IEEE Digital Neural Network
-      new IEEEDigitalNetwork('hero-canvas', {
-        maxConnectDist: 140,
-        mouseRadius: 180
-      });
-    });
+        new IEEEDigitalNetwork('hero-canvas', {
+          maxConnectDist: 140,
+          mouseRadius: 180
+        });
+      }
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      bootNetworks();
+    } else {
+      document.addEventListener('DOMContentLoaded', bootNetworks);
+    }
 
     function handleNewsletter(e) {
       e.preventDefault();

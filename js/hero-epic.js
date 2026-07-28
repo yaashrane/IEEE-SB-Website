@@ -5,7 +5,7 @@
 
 'use strict';
 
-document.addEventListener('DOMContentLoaded', () => {
+function initHeroEpic() {
   const hero = document.getElementById('hero');
   if (!hero) return;
 
@@ -82,4 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
       word.classList.add('is-visible');
     }, 180 + idx * 110);
   });
-});
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  initHeroEpic();
+} else {
+  document.addEventListener('DOMContentLoaded', initHeroEpic);
+}

@@ -358,7 +358,7 @@ const GalleryLightbox = {
 };
 
 // ─── INIT ALL PREMIUM INTERACTIONS ──────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+function bootPremiumInteractions() {
   NavbarHideShow.init();
   MouseLighting.init();
   PageTransition.init();
@@ -369,9 +369,16 @@ document.addEventListener('DOMContentLoaded', () => {
   ReadingProgress.init();
   BlogInteractions.init();
   GalleryLightbox.init();
-});
 
-// Handle page load transition end
-window.addEventListener('load', () => {
-  PageTransition.onPageLoad();
-});
+  if (document.readyState === 'complete') {
+    PageTransition.onPageLoad();
+  } else {
+    window.addEventListener('load', () => PageTransition.onPageLoad());
+  }
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  bootPremiumInteractions();
+} else {
+  document.addEventListener('DOMContentLoaded', bootPremiumInteractions);
+}

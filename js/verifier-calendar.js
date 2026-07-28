@@ -91,6 +91,12 @@ window.setAccentTheme = function(primary, secondary, name) {
   if (panel) panel.classList.remove('active');
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+function bootVerifierCalendar() {
   initAccentThemeWidget();
-});
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  bootVerifierCalendar();
+} else {
+  document.addEventListener('DOMContentLoaded', bootVerifierCalendar);
+}

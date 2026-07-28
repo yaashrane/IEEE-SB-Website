@@ -12,11 +12,12 @@ const Preloader = {
   init() {
     this.el = document.getElementById('preloader');
     if (!this.el) return;
-    window.addEventListener('load', () => {
-      setTimeout(() => this.hide(), 1600);
-    });
-    // Fallback: hide after 3s no matter what
-    setTimeout(() => this.hide(), 3000);
+    if (document.readyState === 'complete') {
+      setTimeout(() => this.hide(), 400);
+    } else {
+      window.addEventListener('load', () => setTimeout(() => this.hide(), 600));
+      setTimeout(() => this.hide(), 1500);
+    }
   },
   hide() {
     if (!this.el || this.el.classList.contains('hidden')) return;
@@ -24,7 +25,7 @@ const Preloader = {
     setTimeout(() => {
       this.el.style.display = 'none';
       document.body.style.overflow = '';
-    }, 700);
+    }, 500);
   }
 };
 
@@ -374,7 +375,7 @@ window.showToast = function(message, type = 'info') {
 };
 
 // ─── INIT ──────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+function bootCore() {
   document.body.style.overflow = 'hidden'; // Lock during preloader
   Preloader.init();
   Theme.init();
@@ -384,4 +385,10 @@ document.addEventListener('DOMContentLoaded', () => {
   BackToTop.init();
   CommandPalette.init();
   initRipple();
-});
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  bootCore();
+} else {
+  document.addEventListener('DOMContentLoaded', bootCore);
+}

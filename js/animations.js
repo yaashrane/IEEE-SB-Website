@@ -248,7 +248,7 @@ const ProgressBars = {
 };
 
 // ─── INIT ──────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+function bootAnimations() {
   ScrollReveal.init();
   StaggerReveal.init();
   HeroReveal.init();
@@ -258,4 +258,10 @@ document.addEventListener('DOMContentLoaded', () => {
   MasonryReveal.init();
   ProgressBars.init();
   CinematicScroll.init();
-});
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  bootAnimations();
+} else {
+  document.addEventListener('DOMContentLoaded', bootAnimations);
+}

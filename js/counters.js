@@ -131,10 +131,16 @@ function initCountdowns() {
 }
 
 // ─── INIT ──────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+function bootCounters() {
   initCounters();
   initCountdowns();
-});
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  bootCounters();
+} else {
+  document.addEventListener('DOMContentLoaded', bootCounters);
+}
 
 window.AnimatedCounter = AnimatedCounter;
 window.CountdownTimer = CountdownTimer;

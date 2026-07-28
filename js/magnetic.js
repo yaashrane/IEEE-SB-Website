@@ -171,12 +171,18 @@ function initCardTilt() {
   document.querySelectorAll('[data-tilt]').forEach(el => new CardTilt(el));
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function bootMagnetic() {
   initMagnetic();
   initCardTilt();
   initHoverLighting();
   initCardSpotlight();
-});
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  bootMagnetic();
+} else {
+  document.addEventListener('DOMContentLoaded', bootMagnetic);
+}
 
 window.MagneticButton = MagneticButton;
 window.CardTilt = CardTilt;
