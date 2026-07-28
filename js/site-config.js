@@ -8,5 +8,5 @@
 
   window.IEEE_API_BASE = savedApi || window.CUSTOM_API_BASE || (isLocal
     ? 'http://localhost:5000/api/v1'
-    : 'https://ieee-sb-backend.onrender.com/api/v1');
+    : 'https://ieee-sb-website.onrender.com/api/v1');
 })();
