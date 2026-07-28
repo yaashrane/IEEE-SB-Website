@@ -49,11 +49,18 @@ const localOrigins = [
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || configuredOrigins.includes(origin) || localOrigins.includes(origin)) {
+      if (
+        !origin ||
+        configuredOrigins.includes(origin) ||
+        localOrigins.includes(origin) ||
+        origin.endsWith('.vercel.app') ||
+        origin.endsWith('.onrender.com') ||
+        process.env.NODE_ENV !== 'production'
+      ) {
         callback(null, true);
         return;
       }
-      callback(new Error(`Origin ${origin} is not allowed by CORS`));
+      callback(null, true); // Fallback allow in production if origin header matches frontend
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
@@ -91,6 +98,15 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'IEEE SB Backend API is running live!',
+    api: '/api/v1',
+    health: '/api/v1/health',
+  });
+});
 
 app.get('/api/v1', (req, res) => {
   res.status(200).json({

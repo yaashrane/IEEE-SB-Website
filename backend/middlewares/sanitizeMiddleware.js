@@ -1,8 +1,6 @@
-import validator from 'validator';
-
 export const sanitizeValue = (value) => {
   if (typeof value === 'string') {
-    return validator.escape(value);
+    return value.trim();
   }
 
   if (Array.isArray(value)) {
