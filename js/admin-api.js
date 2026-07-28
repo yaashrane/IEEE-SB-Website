@@ -9,7 +9,7 @@
 
   const state = {
     token: localStorage.getItem(tokenKey),
-    apiBase: window.IEEE_API_BASE || (localStorage.getItem(baseKey)?.includes('ieee-sb-backend') ? null : localStorage.getItem(baseKey)) || defaultBase,
+    apiBase: window.IEEE_API_BASE || (localHostnames.includes(window.location.hostname) ? 'http://localhost:5000/api/v1' : 'https://ieee-sb-website.onrender.com/api/v1'),
     user: JSON.parse(localStorage.getItem(userKey) || 'null'),
     collections: {},
   };
