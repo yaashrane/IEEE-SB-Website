@@ -4,6 +4,14 @@
     window.location.hostname === '127.0.0.1' ||
     window.location.protocol === 'file:';
 
+  // Clear stale cached legacy domains from user browser localStorage
+  ['IEEE_CUSTOM_API_BASE', 'ieee_api_base'].forEach((key) => {
+    const val = localStorage.getItem(key);
+    if (val && val.includes('ieee-sb-backend')) {
+      localStorage.removeItem(key);
+    }
+  });
+
   const savedApi = localStorage.getItem('IEEE_CUSTOM_API_BASE');
 
   window.IEEE_API_BASE = savedApi || window.CUSTOM_API_BASE || (isLocal
