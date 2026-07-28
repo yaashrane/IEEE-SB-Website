@@ -7,9 +7,16 @@
     ? 'http://localhost:5000/api/v1'
     : `${window.location.origin}/api/v1`;
 
+  const cloudApiFallback = window.IEEE_CLOUD_API_BASE || 'https://ieee-sb-website.onrender.com/api/v1';
+
+  let initialBase = window.IEEE_API_BASE || (localHostnames.includes(window.location.hostname) ? 'http://localhost:5000/api/v1' : cloudApiFallback);
+  if (initialBase.includes('ieee-sb-backend.onrender.com')) {
+    initialBase = cloudApiFallback;
+  }
+
   const state = {
     token: localStorage.getItem(tokenKey),
-    apiBase: window.IEEE_API_BASE || (localHostnames.includes(window.location.hostname) ? 'http://localhost:5000/api/v1' : 'https://ieee-sb-website.onrender.com/api/v1'),
+    apiBase: initialBase,
     user: JSON.parse(localStorage.getItem(userKey) || 'null'),
     collections: {},
   };
@@ -50,15 +57,44 @@
     if (!isFormData) headers['Content-Type'] = 'application/json';
     if (state.token) headers.Authorization = `Bearer ${state.token}`;
 
+    const endpointsToTry = [state.apiBase];
+    if (!endpointsToTry.includes(cloudApiFallback)) {
+      endpointsToTry.push(cloudApiFallback);
+    }
+
     let response;
-    try {
-      response = await fetch(`${state.apiBase}${path}`, {
-        credentials: 'include',
-        ...options,
-        headers,
-      });
-    } catch {
-      throw new Error(`Backend API is not reachable at ${state.apiBase}. Start the backend server first.`);
+    for (const endpoint of endpointsToTry) {
+      try {
+        response = await fetch(`${endpoint}${path}`, {
+          credentials: 'include',
+          ...options,
+          headers,
+        });
+        state.apiBase = endpoint; // Update active API base on success
+        break;
+      } catch {
+        // Continue to fallback
+      }
+    }
+
+    // Render free-tier cold start retry
+    if (!response && endpointsToTry.includes(cloudApiFallback)) {
+      toast('Waking up cloud server (Render free tier), retrying connection...', 'info');
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        response = await fetch(`${cloudApiFallback}${path}`, {
+          credentials: 'include',
+          ...options,
+          headers,
+        });
+        if (response) state.apiBase = cloudApiFallback;
+      } catch {
+        // Fallback failed
+      }
+    }
+
+    if (!response) {
+      throw new Error(`Backend API is not reachable at ${state.apiBase}. If testing locally, start the backend server (\`npm run dev\` in backend/).`);
     }
 
     let payload = {};
