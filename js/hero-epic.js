@@ -19,6 +19,14 @@ function initHeroEpic() {
   let currentX = mouseX;
   let currentY = mouseY;
 
+  let heroW = hero.offsetWidth || window.innerWidth;
+  let heroH = hero.offsetHeight || window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    heroW = hero.offsetWidth || window.innerWidth;
+    heroH = hero.offsetHeight || window.innerHeight;
+  }, { passive: true });
+
   hero.addEventListener('mousemove', (e) => {
     const rect = hero.getBoundingClientRect();
     mouseX = e.clientX - rect.left;
@@ -36,8 +44,8 @@ function initHeroEpic() {
 
     // 3D Glass Stage Tilt & Spatial Depth (Desktop only)
     if (visualStage && window.innerWidth > 992) {
-      const centerX = hero.offsetWidth / 2;
-      const centerY = hero.offsetHeight / 2;
+      const centerX = heroW / 2;
+      const centerY = heroH / 2;
       const tiltX = (currentY - centerY) / centerY * -14;
       const tiltY = (currentX - centerX) / centerX * 14;
       visualStage.style.transform = `perspective(1200px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg)`;

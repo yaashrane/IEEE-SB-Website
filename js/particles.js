@@ -59,15 +59,15 @@ class IEEEDigitalNetwork {
     this.packets = [];
     this.bursts = [];
 
-    // Adaptive Node Count based on screen size (Cleaner, less cluttered)
+    // Adaptive Node Count based on screen size (Optimized for 60 FPS)
     const area = this.W * this.H;
-    let baseCount = Math.floor(area / 22000);
-    if (this.W <= 480) baseCount = Math.min(18, baseCount);
-    else if (this.W <= 768) baseCount = Math.min(32, baseCount);
-    else baseCount = Math.min(55, baseCount);
+    let baseCount = Math.floor(area / 35000);
+    if (this.W <= 480) baseCount = Math.min(12, baseCount);
+    else if (this.W <= 768) baseCount = Math.min(20, baseCount);
+    else baseCount = Math.min(32, baseCount);
 
     // Ensure a minimal count so it still looks active
-    baseCount = Math.max(12, baseCount);
+    baseCount = Math.max(10, baseCount);
 
     // 3 Parallax Layers: 0 (Bg), 1 (Mid), 2 (Fg) - Ultra smooth, slow ambient movement
     const layerDefs = [

@@ -84,11 +84,11 @@ class CardTilt {
   }
 
   onMove(e) {
-    const rect = this.el.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = (e.clientX - cx) / (rect.width / 2);
-    const dy = (e.clientY - cy) / (rect.height / 2);
+    if (!this.rect) this.rect = this.el.getBoundingClientRect();
+    const cx = this.rect.left + this.rect.width / 2;
+    const cy = this.rect.top + this.rect.height / 2;
+    const dx = (e.clientX - cx) / (this.rect.width / 2);
+    const dy = (e.clientY - cy) / (this.rect.height / 2);
     
     // Calculate 3D Spatial Angles
     const tiltX = -dy * this.maxTilt;
@@ -106,13 +106,14 @@ class CardTilt {
     });
 
     // Dynamic Specular Reflection Light Tracker
-    const glareX = ((e.clientX - rect.left) / rect.width) * 100;
-    const glareY = ((e.clientY - rect.top) / rect.height) * 100;
+    const glareX = ((e.clientX - this.rect.left) / this.rect.width) * 100;
+    const glareY = ((e.clientY - this.rect.top) / this.rect.height) * 100;
     this.glareEl.style.opacity = '1';
     this.glareEl.style.background = `radial-gradient(circle at ${glareX.toFixed(1)}% ${glareY.toFixed(1)}%, rgba(255,255,255,0.28) 0%, rgba(6,182,212,0.15) 35%, transparent 70%)`;
   }
 
   onLeave() {
+    this.rect = null;
     this.el.style.transition = 'transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.65s ease';
     this.el.style.transform = `perspective(${this.perspective}px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)`;
     this.el.style.boxShadow = '';
@@ -165,14 +166,16 @@ function initCardSpotlight() {
     spot.className = 'card-spotlight';
     card.appendChild(spot);
 
+    let rect = null;
+    card.addEventListener('mouseenter', () => { rect = card.getBoundingClientRect(); });
     card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
+      if (!rect) rect = card.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 100;
       const y = ((e.clientY - rect.top) / rect.height) * 100;
-      spot.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(99,102,241,0.12) 0%, transparent 60%)`;
+      spot.style.background = `radial-gradient(circle at ${x.toFixed(1)}% ${y.toFixed(1)}%, rgba(99,102,241,0.12) 0%, transparent 60%)`;
       spot.style.opacity = '1';
-    });
-    card.addEventListener('mouseleave', () => { spot.style.opacity = '0'; });
+    }, { passive: true });
+    card.addEventListener('mouseleave', () => { spot.style.opacity = '0'; rect = null; });
   });
 }
 
